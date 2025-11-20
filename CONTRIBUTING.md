@@ -366,13 +366,7 @@ Cualquier otra información relevante.
 
 - **GitHub Issues**: Para bugs y features
 - **Discussions**: Para preguntas generales
-- **Email**: dev@negociolisto.com
 
-### **Para Desarrolladores**
-
-- **Slack**: #negociolisto-dev
-- **Discord**: NegocioListo2 Dev Server
-- **Twitter**: @NegocioListo2
 
 ## 📄 Licencia
 
