@@ -1,0 +1,378 @@
+[
+  {
+    "name": "Canva",
+    "description": "Herramienta de diseño gráfico online para crear presentaciones, flyers, logos y más",
+    "category": "Diseño",
+    "url": "https://www.canva.com",
+    "icon": {
+      "type": "simpleicons",
+      "slug": "canva"
+    },
+    "pricing": "free-tier"
+  },
+  {
+    "name": "Figma",
+    "description": "Plataforma de diseño colaborativo para crear interfaces y prototipos",
+    "category": "Diseño",
+    "url": "https://www.figma.com",
+    "icon": {
+      "type": "simpleicons",
+      "slug": "figma"
+    },
+    "pricing": "free-tier"
+  },
+  {
+    "name": "Pixabay",
+    "description": "Biblioteca gratuita de imágenes y videos libres de derechos para tus proyectos",
+    "category": "Recursos",
+    "url": "https://pixabay.com",
+    "icon": {
+      "type": "simpleicons",
+      "slug": "pixabay"
+    },
+    "pricing": "free"
+  },
+  {
+    "name": "Pexels",
+    "description": "Fotos y videos gratis de alta calidad para uso comercial y personal",
+    "category": "Recursos",
+    "url": "https://www.pexels.com",
+    "icon": {
+      "type": "simpleicons",
+      "slug": "pexels"
+    },
+    "pricing": "free"
+  },
+  {
+    "name": "Unsplash",
+    "description": "Colección gratuita de fotos profesionales de alta resolución para diseño",
+    "category": "Recursos",
+    "url": "https://unsplash.com",
+    "icon": {
+      "type": "simpleicons",
+      "slug": "unsplash"
+    },
+    "pricing": "free"
+  },
+  {
+    "name": "Trello",
+    "description": "Herramienta de gestión de proyectos con tableros y tarjetas visuales",
+    "category": "Gestión",
+    "url": "https://trello.com",
+    "icon": {
+      "type": "simpleicons",
+      "slug": "trello"
+    },
+    "pricing": "free-tier"
+  },
+  {
+    "name": "Asana",
+    "description": "Sistema de gestión de tareas y proyectos con colaboración en equipo",
+    "category": "Gestión",
+    "url": "https://asana.com",
+    "icon": {
+      "type": "simpleicons",
+      "slug": "asana"
+    },
+    "pricing": "free-tier"
+  },
+  {
+    "name": "ClickUp",
+    "description": "Plataforma todo-en-uno para tareas, documentos, y gestión de proyectos",
+    "category": "Gestión",
+    "url": "https://clickup.com",
+    "icon": {
+      "type": "simpleicons",
+      "slug": "clickup"
+    },
+    "pricing": "free-tier"
+  },
+  {
+    "name": "Notion",
+    "description": "Workspace todo-en-uno para notas, documentos, y gestión de proyectos",
+    "category": "Gestión",
+    "url": "https://www.notion.so",
+    "icon": {
+      "type": "simpleicons",
+      "slug": "notion"
+    },
+    "pricing": "free-tier"
+  },
+  {
+    "name": "Google Calendar",
+    "description": "Calendario digital para organizar eventos, recordatorios y reuniones",
+    "category": "Gestión",
+    "url": "https://calendar.google.com",
+    "icon": {
+      "type": "simpleicons",
+      "slug": "googlecalendar"
+    },
+    "pricing": "free"
+  },
+  {
+    "name": "Google Drive",
+    "description": "Servicio de almacenamiento en la nube para guardar y compartir archivos",
+    "category": "Almacenamiento",
+    "url": "https://drive.google.com",
+    "icon": {
+      "type": "simpleicons",
+      "slug": "googledrive"
+    },
+    "pricing": "free"
+  },
+  {
+    "name": "Google Docs",
+    "description": "Editor de documentos online colaborativo en tiempo real",
+    "category": "Productividad",
+    "url": "https://docs.google.com",
+    "icon": {
+      "type": "simpleicons",
+      "slug": "googledocs"
+    },
+    "pricing": "free"
+  },
+  {
+    "name": "Google Sheets",
+    "description": "Hoja de cálculo online para colaborar y analizar datos",
+    "category": "Productividad",
+    "url": "https://sheets.google.com",
+    "icon": {
+      "type": "simpleicons",
+      "slug": "googlesheets"
+    },
+    "pricing": "free"
+  },
+  {
+    "name": "Dropbox",
+    "description": "Almacenamiento en la nube con sincronización entre dispositivos",
+    "category": "Almacenamiento",
+    "url": "https://www.dropbox.com",
+    "icon": {
+      "type": "simpleicons",
+      "slug": "dropbox"
+    },
+    "pricing": "free-tier"
+  },
+  {
+    "name": "Instagram",
+    "description": "Red social para compartir fotos y videos con filtros y efectos",
+    "category": "Redes Sociales",
+    "url": "https://www.instagram.com",
+    "icon": {
+      "type": "simpleicons",
+      "slug": "instagram"
+    },
+    "pricing": "free"
+  },
+  {
+    "name": "Facebook",
+    "description": "Plataforma de redes sociales para conectar con clientes y comunidad",
+    "category": "Redes Sociales",
+    "url": "https://www.facebook.com",
+    "icon": {
+      "type": "simpleicons",
+      "slug": "facebook"
+    },
+    "pricing": "free"
+  },
+  {
+    "name": "YouTube",
+    "description": "Plataforma de videos para crear contenido y promocionar tu negocio",
+    "category": "Redes Sociales",
+    "url": "https://www.youtube.com",
+    "icon": {
+      "type": "simpleicons",
+      "slug": "youtube"
+    },
+    "pricing": "free"
+  },
+  {
+    "name": "TikTok",
+    "description": "Red social de videos cortos para marketing y contenido viral",
+    "category": "Redes Sociales",
+    "url": "https://www.tiktok.com",
+    "icon": {
+      "type": "simpleicons",
+      "slug": "tiktok"
+    },
+    "pricing": "free"
+  },
+  {
+    "name": "X (Twitter)",
+    "description": "Red social de microblogging para publicidad y networking",
+    "category": "Redes Sociales",
+    "url": "https://x.com",
+    "icon": {
+      "type": "simpleicons",
+      "slug": "x"
+    },
+    "pricing": "free"
+  },
+  {
+    "name": "LinkedIn",
+    "description": "Red profesional para conectar con empleados, clientes y socios",
+    "category": "Redes Sociales",
+    "url": "https://www.linkedin.com",
+    "icon": {
+      "type": "simpleicons",
+      "slug": "linkedin"
+    },
+    "pricing": "free"
+  },
+  {
+    "name": "Telegram",
+    "description": "Mensajería instantánea segura y rápida para comunicación",
+    "category": "Comunicación",
+    "url": "https://telegram.org",
+    "icon": {
+      "type": "simpleicons",
+      "slug": "telegram"
+    },
+    "pricing": "free"
+  },
+  {
+    "name": "WhatsApp Business",
+    "description": "Solución de mensajería para atención al cliente y ventas",
+    "category": "Comunicación",
+    "url": "https://www.whatsapp.com/business",
+    "icon": {
+      "type": "simpleicons",
+      "slug": "whatsapp"
+    },
+    "pricing": "free"
+  },
+  {
+    "name": "Google Maps",
+    "description": "Mapas y navegación GPS para ubicar y promocionar tu negocio",
+    "category": "Google",
+    "url": "https://maps.google.com",
+    "icon": {
+      "type": "simpleicons",
+      "slug": "googlemaps"
+    },
+    "pricing": "free"
+  },
+  {
+    "name": "Google My Business",
+    "description": "Gestiona la presencia online de tu negocio en Google",
+    "category": "Google",
+    "url": "https://business.google.com",
+    "icon": {
+      "type": "simpleicons",
+      "slug": "googlemybusiness"
+    },
+    "pricing": "free"
+  },
+  {
+    "name": "Google Forms",
+    "description": "Crea formularios y encuestas online para recopilar información",
+    "category": "Google",
+    "url": "https://forms.google.com",
+    "icon": {
+      "type": "simpleicons",
+      "slug": "googleforms"
+    },
+    "pricing": "free"
+  },
+  {
+    "name": "Gmail",
+    "description": "Servicio de correo electrónico profesional con muchas funciones",
+    "category": "Google",
+    "url": "https://mail.google.com",
+    "icon": {
+      "type": "simpleicons",
+      "slug": "gmail"
+    },
+    "pricing": "free"
+  },
+  {
+    "name": "CapCut",
+    "description": "Editor de video gratuito para crear contenido en redes sociales",
+    "category": "Contenido",
+    "url": "https://www.capcut.com",
+    "icon": {
+      "type": "googlefavicon",
+      "domain": "capcut.com"
+    },
+    "pricing": "free"
+  },
+  {
+    "name": "OBS Studio",
+    "description": "Software de grabación y transmisión en vivo gratuito",
+    "category": "Contenido",
+    "url": "https://obsproject.com",
+    "icon": {
+      "type": "simpleicons",
+      "slug": "obsstudio"
+    },
+    "pricing": "free"
+  },
+  {
+    "name": "ManyChat",
+    "description": "Automación de marketing por chat con bots y mensajería",
+    "category": "Automatización",
+    "url": "https://manychat.com",
+    "icon": {
+      "type": "simpleicons",
+      "slug": "manychat"
+    },
+    "pricing": "free-tier"
+  },
+  {
+    "name": "Zapier",
+    "description": "Automatiza tareas conectando tus herramientas favoritas sin código",
+    "category": "Automatización",
+    "url": "https://zapier.com",
+    "icon": {
+      "type": "simpleicons",
+      "slug": "zapier"
+    },
+    "pricing": "free-tier"
+  },
+  {
+    "name": "Buffer",
+    "description": "Gestiona y programa publicaciones en múltiples redes sociales",
+    "category": "Marketing",
+    "url": "https://buffer.com",
+    "icon": {
+      "type": "simpleicons",
+      "slug": "buffer"
+    },
+    "pricing": "free-tier"
+  },
+  {
+    "name": "Bitly",
+    "description": "Acortador de URLs y analítica de enlaces para marketing",
+    "category": "Marketing",
+    "url": "https://bitly.com",
+    "icon": {
+      "type": "simpleicons",
+      "slug": "bitly"
+    },
+    "pricing": "free-tier"
+  },
+  {
+    "name": "Mailchimp",
+    "description": "Plataforma de email marketing para campañas y newsletters",
+    "category": "Email",
+    "url": "https://mailchimp.com",
+    "icon": {
+      "type": "simpleicons",
+      "slug": "mailchimp"
+    },
+    "pricing": "free-tier"
+  },
+  {
+    "name": "Brevo",
+    "description": "Herramienta de marketing por email y SMS todo-en-uno",
+    "category": "Email",
+    "url": "https://www.brevo.com",
+    "icon": {
+      "type": "simpleicons",
+      "slug": "brevo"
+    },
+    "pricing": "free-tier"
+  }
+]
+
+

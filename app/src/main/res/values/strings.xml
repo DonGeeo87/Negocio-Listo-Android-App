@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">NegocioListo</string>
+    
+    <!-- Google Sign-In Configuration -->
+    <string name="default_web_client_id">710570364691-3iaen353gm5n1t8cb3htojts6fplt18k.apps.googleusercontent.com</string>
+</resources>

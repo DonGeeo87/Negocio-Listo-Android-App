@@ -1,0 +1,2804 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo - NegocioListo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #009FE3 0%, #312783 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 16px;
+        }
+
+        .header .logo {
+            width: 62px;
+            height: 62px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.18);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .header .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .header-info span {
+            font-weight: 500;
+            opacity: 0.9;
+        }
+
+        .header-title {
+            background: rgba(255,255,255,0.18);
+            border-radius: 24px;
+            display: inline-block;
+            padding: 12px 28px;
+            margin-bottom: 12px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin: 0;
+        }
+
+        .welcome-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255,255,255,0.18);
+            padding: 8px 16px;
+            border-radius: 999px;
+            font-weight: 600;
+            margin: 12px 0;
+        }
+
+        .header-subtitle {
+            margin-top: 10px;
+            font-weight: 600;
+            font-size: 16px;
+            opacity: 0.95;
+            cursor: pointer;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .error {
+            background: #fee;
+            color: #c33;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .product-card {
+            border: 2px solid #eee;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s;
+            background: #fafafa;
+        }
+
+        .product-card:hover {
+            border-color: #009FE3;
+            transform: translateY(-4px);
+            box-shadow: 0 4px 12px rgba(0,159,227,0.2);
+        }
+        
+        .product-card.featured {
+            border: 2px solid #FFD700;
+            box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
+        }
+        
+        /* Estilos para Sección de Aprobaciones */
+        .order-status-section {
+            margin: 30px 0;
+        }
+        
+        .order-status-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 25px;
+            border: 2px solid #e0e0e0;
+        }
+        
+        .status-info {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        
+        .status-badge.pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-badge.approved {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-badge.in-production {
+            background: #cce5ff;
+            color: #004085;
+        }
+        
+        .approval-section {
+            margin: 20px 0;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+        
+        .approval-section h3 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .approval-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+        
+        .approval-checkbox input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+        
+        .approval-checkbox span {
+            font-weight: 500;
+            color: #333;
+        }
+        
+        .approval-description {
+            color: #666;
+            font-size: 14px;
+            margin: 10px 0;
+        }
+        
+        .approve-btn {
+            background: linear-gradient(135deg, #009FE3 0%, #312783 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.3s;
+        }
+        
+        .approve-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,159,227,0.3);
+        }
+        
+        .approved-badge {
+            background: #d4edda;
+            color: #155724;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-weight: 500;
+        }
+        
+        .pending-status {
+            color: #856404;
+            padding: 12px;
+            background: #fff3cd;
+            border-radius: 8px;
+        }
+        
+        .production-status {
+            margin-top: 25px;
+            padding: 20px;
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            border-radius: 8px;
+            border: 2px solid #28a745;
+        }
+        
+        .success-message h3 {
+            color: #155724;
+            margin-bottom: 10px;
+        }
+        
+        .success-message p {
+            color: #155724;
+            margin: 0;
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            background: #ddd;
+        }
+
+        .product-card h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .product-card .price {
+            font-size: 24px;
+            font-weight: bold;
+            color: #009FE3;
+            margin: 10px 0;
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .quantity-control button {
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 8px;
+            background: #009FE3;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .quantity-control button:hover {
+            background: #312783;
+        }
+
+        .quantity-control button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .quantity-control span {
+            font-size: 20px;
+            font-weight: bold;
+            min-width: 40px;
+        }
+
+        .notes-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-family: inherit;
+            font-size: 14px;
+        }
+
+        .order-form {
+            margin-top: 40px;
+            padding: 30px;
+            background: #f9f9f9;
+            border-radius: 12px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+                 .form-group input,
+         .form-group select,
+         .form-group textarea {
+             width: 100%;
+             padding: 12px;
+             border: 2px solid #ddd;
+             border-radius: 8px;
+             font-family: inherit;
+             font-size: 16px;
+             transition: border-color 0.3s;
+         }
+ 
+         .form-group input:focus,
+         .form-group select:focus,
+         .form-group textarea:focus {
+             outline: none;
+             border-color: #009FE3;
+         }
+         
+         .form-group input.error,
+         .form-group select.error,
+         .form-group textarea.error {
+             border-color: #f44336;
+         }
+         
+         .form-group input.valid {
+             border-color: #4CAF50;
+         }
+         
+         .error-message {
+             color: #f44336;
+             font-size: 14px;
+             margin-top: 5px;
+             display: block;
+         }
+         
+         .field-hint {
+             color: #666;
+             font-size: 12px;
+             margin-top: 5px;
+             display: block;
+         }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #009FE3 0%, #312783 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+            margin-top: 20px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,159,227,0.3);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .total {
+            background: #009FE3;
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .total h2 {
+            font-size: 32px;
+            margin-bottom: 5px;
+        }
+
+        .chat-section {
+            margin-top: 40px;
+            padding: 20px;
+            background: #f0f0f0;
+            border-radius: 12px;
+            max-height: 400px;
+            display: flex;
+            flex-direction: column;
+        }
+        /* legacy chat section removed */
+
+        /* Botón flotante de chat */
+        .chat-fab {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #10B981 0%, #2DD4BF 100%);
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 1000;
+            display: none;
+        }
+        .chat-fab:hover { transform: translateY(-2px); }
+        .chat-fab-badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            min-width: 18px;
+            height: 18px;
+            padding: 0 4px;
+            border-radius: 9px;
+            background: #EF4444;
+            color: #fff;
+            font-size: 11px;
+            font-weight: 700;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Panel flotante del chat */
+        .chat-floating-panel {
+            position: fixed;
+            right: 20px;
+            bottom: 88px;
+            width: min(420px, 92vw);
+            max-height: min(600px, 75vh);
+            min-height: 320px;
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 16px 40px rgba(0,0,0,0.2);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 999;
+        }
+        .chat-floating-header {
+            background: linear-gradient(135deg, #009FE3 0%, #312783 100%);
+            color: #fff;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .chat-floating-close {
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        
+        /* Mejoras para desktop */
+        @media (min-width: 769px) {
+            .chat-section {
+                max-height: 600px;
+                min-height: 400px;
+            }
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            margin-bottom: 15px;
+            padding: 18px 20px 22px;
+            background: white;
+            border-radius: 12px;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column; /* Mensajes antiguos arriba, recientes abajo */
+            box-shadow: 0 6px 18px rgba(27, 43, 89, 0.08);
+        }
+        
+        /* Mejoras de scroll para desktop */
+        @media (min-width: 769px) {
+            .chat-messages {
+                min-height: 300px;
+                max-height: 520px;
+                padding: 22px 26px 26px;
+            }
+        }
+        
+        /* Scrollbar personalizado para chat */
+        .chat-messages::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .chat-messages::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+        
+        .chat-messages::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        .message-wrapper {
+            display: flex;
+            margin-bottom: 10px;
+            width: 100%;
+            padding: 0 4px;
+        }
+
+        .message-wrapper:first-child {
+            margin-top: 6px;
+        }
+
+        .message-wrapper:last-child {
+            margin-bottom: 4px;
+        }
+
+        .message-wrapper.client {
+            justify-content: flex-start;
+        }
+
+        .message-wrapper.business {
+            justify-content: flex-end;
+        }
+
+        .message {
+            max-width: 75%;
+            min-width: 50px;
+            padding: 8px 12px;
+            border-radius: 16px;
+            word-wrap: break-word;
+            position: relative;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+            line-height: 1.4;
+        }
+        
+        /* Ajustes para móvil */
+        @media (max-width: 768px) {
+            .message {
+                max-width: 85%;
+                padding: 7px 11px;
+            }
+        }
+
+        .message.business {
+            background: linear-gradient(135deg, #009FE3 0%, #312783 100%);
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+        
+        .message.business:hover {
+            box-shadow: 0 2px 4px rgba(0, 159, 227, 0.2);
+        }
+
+        .message.client {
+            background: #e8f5e9;
+            color: #333;
+            border-bottom-left-radius: 4px;
+        }
+        
+        .message.client:hover {
+            box-shadow: 0 2px 4px rgba(46, 125, 50, 0.2);
+        }
+
+        .message-author {
+            font-weight: 600;
+            font-size: 0.75em;
+            margin-bottom: 3px;
+            opacity: 0.85;
+            letter-spacing: 0.3px;
+        }
+
+        .message.client .message-author {
+            color: #2e7d32;
+        }
+
+        .message.business .message-author {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .message-content {
+            line-height: 1.35;
+            font-size: 0.95em;
+        }
+        
+        /* Espaciado más compacto entre mensajes del mismo remitente */
+        .message-wrapper.client + .message-wrapper.client,
+        .message-wrapper.business + .message-wrapper.business {
+            margin-top: -4px;
+        }
+
+        .chat-input {
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+        }
+
+        .chat-input button {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #009FE3 0%, #312783 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+            min-width: 80px;
+        }
+        
+        .chat-input button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 159, 227, 0.3);
+        }
+        
+        .chat-input button:active {
+            transform: translateY(0);
+        }
+        
+        .chat-input button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .chat-fab-label {
+            position: fixed;
+            right: 88px;
+            bottom: 32px;
+            background: rgba(49, 39, 131, 0.95);
+            color: #fff;
+            padding: 8px 14px;
+            border-radius: 999px;
+            font-size: 14px;
+            font-weight: 600;
+            box-shadow: 0 6px 16px rgba(49,39,131,0.35);
+            display: none;
+            z-index: 999;
+        }
+
+        .footer {
+            margin-top: 60px;
+            padding: 48px 20px 32px;
+            background: linear-gradient(135deg, rgba(49,39,131,0.05) 0%, rgba(49,39,131,0.02) 100%);
+            border-top: 1px solid rgba(49,39,131,0.1);
+            text-align: center;
+            position: relative;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .footer-logo {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: rgba(49,39,131,0.12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(49,39,131,0.15);
+        }
+
+        .footer-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .footer-brand {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-brand-name {
+            font-size: 20px;
+            font-weight: 700;
+            color: #312783;
+            margin: 0;
+        }
+
+        .footer-brand-tagline {
+            font-size: 14px;
+            color: #666;
+            margin: 0;
+        }
+
+        .footer-tip {
+            background: rgba(49,39,131,0.08);
+            border-left: 4px solid #312783;
+            padding: 16px 20px;
+            border-radius: 8px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .footer-tip strong {
+            color: #312783;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .footer-tip p {
+            margin: 0;
+            font-size: 14px;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        .footer-copyright {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(49,39,131,0.1);
+            font-size: 12px;
+            color: #888;
+        }
+
+        @media (max-width: 768px) {
+            .footer {
+                padding: 36px 16px 24px;
+                margin-top: 40px;
+            }
+
+            .footer-logo {
+                width: 48px;
+                height: 48px;
+            }
+
+            .footer-brand-name {
+                font-size: 18px;
+            }
+
+            .footer-tip {
+                padding: 16px 18px;
+            }
+
+            .footer-tip p {
+                font-size: 14px;
+            }
+            
+            body.template-MODERN .footer-tip {
+                padding: 18px 20px;
+            }
+            
+            body.template-MODERN .footer-tip p {
+                font-size: 14px;
+            }
+        }
+
+        .carousel-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .carousel-viewport {
+            overflow: hidden;
+            flex: 1;
+        }
+
+        .carousel-track {
+            display: flex;
+            gap: 0;
+            transition: transform 0.4s ease;
+        }
+
+        .carousel-slide {
+            display: flex;
+            justify-content: center;
+            padding: 10px 0;
+        }
+
+        .carousel-nav {
+            border: none;
+            background: rgba(49,39,131,0.12);
+            color: #312783;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .carousel-nav:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .carousel-indicators {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 16px;
+        }
+
+        .carousel-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #d1d5db;
+        }
+
+        .carousel-dot.active {
+            background: #312783;
+        }
+
+        /* 🎨 TEMPLATES DE MINI-WEB */
+        
+        /* Template MODERN (Por defecto) */
+        body.template-MODERN {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        body.template-MODERN .header {
+            background: linear-gradient(135deg, #009FE3 0%, #312783 100%);
+        }
+        
+        /* Footer - Template MODERN */
+        body.template-MODERN .footer {
+            background: linear-gradient(180deg, rgba(49,39,131,0.95) 0%, rgba(31,27,71,0.98) 100%);
+            border-top: 2px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 -8px 32px rgba(0,0,0,0.15);
+        }
+        
+        body.template-MODERN .footer-brand-name {
+            color: #ffffff;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        
+        body.template-MODERN .footer-brand-tagline {
+            color: rgba(255,255,255,0.85);
+        }
+        
+        body.template-MODERN .footer-logo {
+            background: rgba(255,255,255,0.15);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+        
+        body.template-MODERN .footer-tip {
+            background: rgba(255,255,255,0.15);
+            border-left: 4px solid #ffffff;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            border-radius: 12px;
+            padding: 20px 24px;
+        }
+        
+        body.template-MODERN .footer-tip strong {
+            color: #ffffff;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+            font-size: 16px;
+        }
+        
+        body.template-MODERN .footer-tip p {
+            color: rgba(255,255,255,0.95);
+            font-size: 15px;
+            line-height: 1.6;
+        }
+        
+        body.template-MODERN .footer-copyright {
+            border-top: 1px solid rgba(255,255,255,0.15);
+            color: rgba(255,255,255,0.75);
+        }
+        
+        body.template-MODERN .footer-copyright p {
+            color: rgba(255,255,255,0.75);
+        }
+        
+        /* Template CLASSIC */
+        body.template-CLASSIC {
+            background: #f5f5f5;
+        }
+        body.template-CLASSIC .container {
+            border: 2px solid #333;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        body.template-CLASSIC .header {
+            background: #2c3e50;
+            border-bottom: 4px solid #34495e;
+        }
+        body.template-CLASSIC .product-card {
+            border: 2px solid #bdc3c7;
+            background: white;
+        }
+        body.template-CLASSIC .product-card:hover {
+            border-color: #2c3e50;
+        }
+        
+        /* Template MINIMAL */
+        body.template-MINIMAL {
+            background: #ffffff;
+        }
+        body.template-MINIMAL .container {
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border: 1px solid #e0e0e0;
+        }
+        body.template-MINIMAL .header {
+            background: #ffffff;
+            color: #333;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        body.template-MINIMAL .product-card {
+            border: 1px solid #e0e0e0;
+            background: #fafafa;
+        }
+        body.template-MINIMAL .product-card:hover {
+            border-color: #333;
+            background: white;
+        }
+        
+        /* Template DARK */
+        body.template-DARK {
+            background: #1a1a1a;
+        }
+        body.template-DARK .container {
+            background: #2d2d2d;
+            color: #e0e0e0;
+        }
+        body.template-DARK .header {
+            background: #1f2937;
+            color: white;
+            border-bottom: 2px solid #3a3a3a;
+        }
+        body.template-DARK .product-card {
+            background: #3a3a3a;
+            border: 1px solid #4a4a4a;
+            color: #e0e0e0;
+        }
+        body.template-DARK .product-card:hover {
+            border-color: #6366f1;
+            background: #4a4a4a;
+        }
+        body.template-DARK .content {
+            color: #e0e0e0;
+        }
+        body.template-DARK input,
+        body.template-DARK select,
+        body.template-DARK textarea {
+            background: #3a3a3a;
+            color: #e0e0e0;
+            border-color: #4a4a4a;
+        }
+        
+        /* Formulario de pedido - Template DARK */
+        body.template-DARK .order-form {
+            background: #2d2d2d;
+            border: 1px solid #4a4a4a;
+        }
+        
+        body.template-DARK .form-group label {
+            color: #e0e0e0;
+            font-weight: 600;
+        }
+        
+        body.template-DARK .form-group input,
+        body.template-DARK .form-group select,
+        body.template-DARK .form-group textarea {
+            background: #3a3a3a;
+            color: #ffffff;
+            border-color: #4a4a4a;
+        }
+        
+        body.template-DARK .form-group input:focus,
+        body.template-DARK .form-group select:focus,
+        body.template-DARK .form-group textarea:focus {
+            border-color: #6366f1;
+            background: #404040;
+        }
+        
+        body.template-DARK .form-group input::placeholder,
+        body.template-DARK .form-group textarea::placeholder {
+            color: #999;
+        }
+        
+        body.template-DARK .field-hint {
+            color: #b0b0b0;
+        }
+        
+        body.template-DARK .error-message {
+            color: #f87171;
+        }
+        
+        /* Botones - Template DARK */
+        body.template-DARK .submit-btn {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+        }
+        
+        body.template-DARK .submit-btn:hover {
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+        }
+        
+        body.template-DARK .quantity-control button {
+            background: #4a4a4a;
+            color: #e0e0e0;
+            border-color: #5a5a5a;
+        }
+        
+        body.template-DARK .quantity-control button:hover {
+            background: #5a5a5a;
+            border-color: #6366f1;
+        }
+        
+        body.template-DARK .carousel-nav {
+            background: rgba(58,58,58,0.8);
+            color: #e0e0e0;
+        }
+        
+        body.template-DARK .carousel-nav:hover:not(:disabled) {
+            background: rgba(99,102,241,0.8);
+        }
+        
+        body.template-DARK .carousel-dot {
+            background: #6b7280;
+        }
+        
+        body.template-DARK .carousel-dot.active {
+            background: #818cf8;
+        }
+        
+        /* Textos de productos - Template DARK */
+        body.template-DARK .product-card h3 {
+            color: #ffffff;
+        }
+        
+        body.template-DARK .product-card p {
+            color: #d0d0d0;
+        }
+        
+        body.template-DARK .product-card .rating {
+            color: #fbbf24;
+        }
+        
+        /* Precios y estados - Template DARK */
+        body.template-DARK .product-card p[style*="color: #312783"] {
+            color: #818cf8 !important;
+        }
+        
+        /* Total del pedido - Template DARK */
+        body.template-DARK .total {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+        }
+        
+        /* Order Status Section - Template DARK */
+        body.template-DARK .order-status-section {
+            background: #2d2d2d;
+            border: 1px solid #4a4a4a;
+        }
+        
+        body.template-DARK .order-status-card {
+            background: #3a3a3a;
+            border-color: #4a4a4a;
+            color: #e0e0e0;
+        }
+        
+        body.template-DARK .order-status-card h3 {
+            color: #ffffff;
+        }
+        
+        body.template-DARK .status-badge {
+            color: white;
+        }
+        
+        body.template-DARK .approve-btn {
+            background: #10b981;
+            color: white;
+        }
+        
+        body.template-DARK .approve-btn:hover {
+            background: #059669;
+        }
+        
+        /* Header - Template DARK - Textos mejorados */
+        body.template-DARK .header h1 {
+            color: #ffffff;
+        }
+        
+        body.template-DARK .header p {
+            color: #e0e0e0;
+        }
+        
+        body.template-DARK .header-subtitle {
+            color: #d0d0d0;
+        }
+        
+        body.template-DARK .welcome-chip {
+            background: rgba(255,255,255,0.15);
+            color: #ffffff;
+        }
+        
+        body.template-DARK .header-info span {
+            color: rgba(255,255,255,0.9);
+        }
+        
+        /* Chat - Template DARK */
+        body.template-DARK .chat-floating-panel {
+            background: #2d2d2d;
+            border-color: #4a4a4a;
+        }
+        
+        body.template-DARK .chat-input input {
+            background: #3a3a3a;
+            color: #ffffff;
+            border-color: #4a4a4a;
+        }
+        
+        body.template-DARK .chat-messages {
+            background: #1f2937;
+            border: 1px solid #374151;
+            box-shadow: 0 10px 24px rgba(17, 24, 39, 0.45);
+        }
+
+        body.template-DARK .chat-input button {
+            background: #6366f1;
+            color: white;
+        }
+        
+        body.template-DARK .chat-input button:hover {
+            background: #4f46e5;
+        }
+        
+        body.template-DARK .message.business {
+            background: #3a3a3a;
+            color: #e0e0e0;
+        }
+        
+        body.template-DARK .message.client {
+            background: #4f46e5;
+            color: white;
+        }
+        
+        body.template-DARK .message-author {
+            color: #b0b0b0;
+        }
+        
+        /* Notas de productos - Template DARK */
+        body.template-DARK .notes-input {
+            background: #3a3a3a;
+            color: #ffffff;
+            border-color: #4a4a4a;
+        }
+        
+        body.template-DARK .notes-input::placeholder {
+            color: #999;
+        }
+        
+        /* Estados vacíos y errores - Template DARK */
+        body.template-DARK .empty-state {
+            color: #b0b0b0 !important;
+        }
+        
+        body.template-DARK .error {
+            background: rgba(248,113,113,0.15);
+            color: #f87171;
+            border: 1px solid rgba(248,113,113,0.3);
+        }
+        
+        body.template-DARK .loading {
+            color: #b0b0b0;
+        }
+        
+        /* Footer - Template DARK */
+        body.template-DARK .footer {
+            background: linear-gradient(135deg, rgba(31,41,55,0.8) 0%, rgba(31,41,55,0.6) 100%);
+            border-top-color: rgba(100,100,100,0.2);
+        }
+        body.template-DARK .footer-brand-name {
+            color: #e0e0e0;
+        }
+        body.template-DARK .footer-brand-tagline {
+            color: #b0b0b0;
+        }
+        body.template-DARK .footer-tip {
+            background: rgba(58,58,58,0.6);
+            border-left-color: #6366f1;
+        }
+        body.template-DARK .footer-tip strong {
+            color: #818cf8;
+        }
+        body.template-DARK .footer-tip p {
+            color: #d0d0d0;
+        }
+        body.template-DARK .footer-copyright {
+            border-top-color: rgba(100,100,100,0.2);
+            color: #a0a0a0;
+        }
+        
+        /* Template COLORFUL */
+        body.template-COLORFUL {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+        }
+        body.template-COLORFUL .header {
+            background: linear-gradient(135deg, #10B981 0%, #6366F1 50%, #EC4899 100%);
+            animation: gradientShift 5s ease infinite;
+        }
+        body.template-COLORFUL .product-card {
+            border: 3px solid transparent;
+            background: linear-gradient(white, white) padding-box,
+                        linear-gradient(135deg, #10B981, #6366F1, #EC4899) border-box;
+        }
+        body.template-COLORFUL .product-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
+        }
+        body.template-COLORFUL .footer {
+            background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.08) 100%);
+            border-top-color: rgba(255,255,255,0.2);
+        }
+        body.template-COLORFUL .footer-brand-name {
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        body.template-COLORFUL .footer-brand-tagline {
+            color: rgba(255,255,255,0.9);
+        }
+        body.template-COLORFUL .footer-tip {
+            background: rgba(255,255,255,0.2);
+            border-left-color: #10B981;
+        }
+        body.template-COLORFUL .footer-tip strong {
+            color: #10B981;
+        }
+        body.template-COLORFUL .footer-tip p {
+            color: rgba(255,255,255,0.95);
+        }
+        body.template-COLORFUL .footer-copyright {
+            border-top-color: rgba(255,255,255,0.2);
+            color: rgba(255,255,255,0.8);
+        }
+        @keyframes gradientShift {
+            0%, 100% { background: linear-gradient(135deg, #10B981 0%, #6366F1 50%, #EC4899 100%); }
+            50% { background: linear-gradient(135deg, #EC4899 0%, #10B981 50%, #6366F1 100%); }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                border-radius: 12px;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 22px;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .product-card {
+                padding: 15px;
+            }
+            
+            .order-form {
+                padding: 15px;
+            }
+            
+            .form-group {
+                margin-bottom: 15px;
+            }
+            
+            .form-group input,
+            .form-group select,
+            .form-group textarea {
+                font-size: 16px; /* Evita zoom en iOS */
+            }
+            
+            .chat-container {
+                max-height: 300px;
+            }
+        }
+        
+        @media (min-width: 1025px) {
+            .container {
+                max-width: 1200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-info">
+                <div class="logo" id="headerLogo">
+                    <img src="/assets/icon_negociolisto.png" alt="NegocioListo" />
+                </div>
+                <span id="headerInfoText">NegocioListo — Catálogo personalizado</span>
+            </div>
+            <div class="header-title">
+                <h1 id="collectionName">Cargando catálogo...</h1>
+            </div>
+            <p id="collectionDescription"></p>
+            <div id="welcomeChip" class="welcome-chip" style="display:none;">Bienvenid@ <span id="welcomeName"></span></div>
+            <p id="headerSubtitle" class="header-subtitle">Conoce los productos de tu Colección</p>
+        </div>
+        
+        <div class="content">
+            <div id="loading" class="loading">
+                Cargando productos...
+            </div>
+            
+            <div id="error" class="error" style="display: none;"></div>
+            
+            <div id="carouselWrapper" style="display:none;">
+                <div class="carousel-container">
+                    <button id="carouselPrev" class="carousel-nav" aria-label="Productos anteriores">‹</button>
+                    <div class="carousel-viewport">
+                        <div id="productsTrack" class="carousel-track"></div>
+                    </div>
+                    <button id="carouselNext" class="carousel-nav" aria-label="Más productos">›</button>
+                </div>
+                <div id="carouselIndicators" class="carousel-indicators"></div>
+            </div>
+            
+            <div id="orderForm" class="order-form" style="display: none;">
+                <h2>Completa tu pedido</h2>
+
+                <input type="hidden" id="clientName">
+                <input type="hidden" id="clientPhone">
+                
+                <div class="form-group">
+                    <label>Email *</label>
+                    <input type="email" id="clientEmail" required>
+                    <span class="error-message" id="clientEmailError" style="display: none;"></span>
+                    <span class="field-hint">Usaremos este email para enviarte el detalle del pedido</span>
+                </div>
+                 
+                <div class="form-group">
+                    <label>Método de entrega *</label>
+                    <select id="deliveryMethod" required>
+                        <option value="">Selecciona...</option>
+                        <option value="retiro">Retiro en tienda</option>
+                        <option value="despacho">Despacho a domicilio</option>
+                        <option value="evento">Entrega en evento</option>
+                    </select>
+                </div>
+                
+                <div class="form-group" id="addressGroup" style="display: none;">
+                    <label>Dirección</label>
+                    <input type="text" id="address">
+                </div>
+                
+                <div class="form-group">
+                    <label>Método de pago *</label>
+                    <select id="paymentMethod" required>
+                        <option value="">Selecciona...</option>
+                        <option value="efectivo">Efectivo</option>
+                        <option value="transferencia">Transferencia</option>
+                        <option value="link">Link de pago</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Fecha deseada</label>
+                    <input type="date" id="desiredDate">
+                </div>
+                
+                <div class="form-group">
+                    <label>Observaciones</label>
+                    <textarea id="observations" rows="3"></textarea>
+                </div>
+                
+                <div class="total">
+                    <h2>Total: $<span id="totalAmount">0</span></h2>
+                    <p id="itemCount">0 items</p>
+                </div>
+                
+                <button class="submit-btn" id="submitOrder" disabled>
+                    Enviar pedido
+                </button>
+            </div>
+            
+                          <!-- Sección de Estado del Pedido -->
+              <div id="orderStatusSection" class="order-status-section" style="display: none;">
+                  <h2>Estado de tu Pedido</h2>
+                  <div id="orderStatusCard" class="order-status-card">
+                      <div class="status-info">
+                          <div class="status-badge" id="statusBadge">Pedido Enviado</div>
+                          <p id="statusDescription">Tu pedido ha sido enviado exitosamente. El negocio lo procesará pronto.</p>
+                      </div>
+                      
+                      <!-- Estado del Pedido -->
+                      <div id="orderStatusInfo" class="order-status-info">
+                          <p id="orderStatusText">El negocio recibirá tu pedido y te notificará sobre su estado.</p>
+                      </div>
+
+              <div id="chatMessages" class="chat-messages" style="display:none;"></div>
+                  </div>
+              </div>
+              
+        </div>
+    </div>
+
+    <!-- Botón flotante de chat y panel -->
+    <div id="chatFab" class="chat-fab" title="Abrir chat" aria-label="Abrir chat">
+        💬
+        <div id="chatFabBadge" class="chat-fab-badge">0</div>
+    </div>
+    <div id="chatFabLabel" class="chat-fab-label">Haz clic para chatear</div>
+    <div id="chatFloatingPanel" class="chat-floating-panel" role="dialog" aria-label="Chat con el negocio">
+        <div class="chat-floating-header">
+            <strong>Chat con el negocio</strong>
+            <button id="chatFloatingClose" class="chat-floating-close" aria-label="Cerrar">✕</button>
+        </div>
+        <div style="flex:1; padding: 12px; display:flex; flex-direction:column;">
+            <div id="chatMessagesFloating" class="chat-messages" style="flex:1"></div>
+            <div class="chat-input" style="margin-top:8px;">
+                <input type="text" id="chatInputFloating" placeholder="Escribe tu mensaje..." />
+                <button id="sendMessageFloating">Enviar</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <div class="footer-logo">
+                    <img src="/assets/icon_negociolisto.png" alt="NegocioListo" />
+                </div>
+                <h3 class="footer-brand-name">NegocioListo</h3>
+                <p class="footer-brand-tagline">Gestión inteligente para tu negocio</p>
+            </div>
+            
+            <div class="footer-tip">
+                <strong>💡 Tip</strong>
+                <p>Selecciona la cantidad, agrega notas personalizadas y califica los productos favoritos de tu cliente para una experiencia de pedido optimizada.</p>
+            </div>
+            
+            <div class="footer-copyright">
+                <p>&copy; 2025 NegocioListo. Todos los derechos reservados.</p>
+                <p style="margin-top: 4px; font-size: 11px;">Hecho con ❤️ para emprendedores</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { initializeFirestore, collection, doc, getDoc, getDocs, query, orderBy, addDoc, updateDoc, onSnapshot, serverTimestamp, where, limit } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+                    // Configuración de Firebase (Proyecto: app-negocio-listo)
+            const firebaseConfig = {
+                apiKey: "AIzaSyDqwjW-scT_GgMevOV9cy7hTlmiWjfs3h8",
+                authDomain: "app-negocio-listo.firebaseapp.com",
+                projectId: "app-negocio-listo",
+                storageBucket: "app-negocio-listo.firebasestorage.app",
+                messagingSenderId: "710570364691"
+            };
+
+        const app = initializeApp(firebaseConfig);
+        // Forzar long-polling para evitar errores 400 intermitentes en algunos navegadores/redes
+        const db = initializeFirestore(app, { experimentalForceLongPolling: true, useFetchStreams: false });
+
+        // Obtener collectionId de la URL
+                  // 🎨 FUNCIÓN PARA APLICAR TEMPLATE
+        function applyTemplate(template) {
+            if (!template || typeof template !== 'string') {
+                console.warn('⚠️ Template inválido, usando MODERN por defecto');
+                template = 'MODERN';
+            }
+            
+            // Normalizar el nombre del template
+            const normalizedTemplate = template.toUpperCase().trim();
+            
+            // Remover clases de template anteriores
+            document.body.classList.remove(
+                'template-MODERN',
+                'template-CLASSIC',
+                'template-MINIMAL',
+                'template-DARK',
+                'template-COLORFUL'
+            );
+            
+            // Validar y aplicar template
+            const validTemplates = ['MODERN', 'CLASSIC', 'MINIMAL', 'DARK', 'COLORFUL'];
+            const finalTemplate = validTemplates.includes(normalizedTemplate) 
+                ? normalizedTemplate 
+                : 'MODERN';
+            
+            // Aplicar clase al body
+            document.body.classList.add(`template-${finalTemplate}`);
+            
+            console.log(`🎨 Template aplicado: ${finalTemplate} (desde parámetro: ${template})`);
+            
+            // Guardar template en localStorage para persistencia
+            try {
+                localStorage.setItem('lastTemplate', finalTemplate);
+            } catch (e) {
+                console.warn('No se pudo guardar template en localStorage:', e);
+            }
+        }
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const collectionId = urlParams.get('id');
+        let templateParam = urlParams.get('template');
+        const tokenFromUrl = urlParams.get('token'); // Token del cliente desde la URL
+        
+        // Si no hay template en la URL, intentar obtenerlo del localStorage
+        if (!templateParam) {
+            try {
+                templateParam = localStorage.getItem('lastTemplate') || 'MODERN';
+            } catch (e) {
+                templateParam = 'MODERN';
+            }
+        }
+
+        // 🎨 APLICAR TEMPLATE INMEDIATAMENTE
+        applyTemplate(templateParam);
+
+        if (!collectionId) {
+            document.getElementById('error').style.display = 'block';
+            document.getElementById('error').textContent = 'ID de colección no proporcionado';
+            document.getElementById('loading').style.display = 'none';
+        } else {
+            loadCollection(collectionId);
+        }
+
+        let selectedItems = {}; // productId -> { quantity, notes, rating }
+        let collectionData = null;
+        let associatedCustomer = null;
+        let productsData = {};
+        let productsToRender = []; // Productos cargados y renderizados
+        let currentCustomerId = null; // ID del cliente obtenido del token
+        let currentAccessToken = null; // Token de acceso del cliente
+
+        const carouselWrapper = document.getElementById('carouselWrapper');
+        const productsTrack = document.getElementById('productsTrack');
+        const carouselIndicators = document.getElementById('carouselIndicators');
+        const carouselPrev = document.getElementById('carouselPrev');
+        const carouselNext = document.getElementById('carouselNext');
+        let carouselIndex = 0;
+        let visibleSlides = 1;
+
+        const chatFab = document.getElementById('chatFab');
+        const chatFabBadge = document.getElementById('chatFabBadge');
+        const chatFabLabel = document.getElementById('chatFabLabel');
+        const chatFloatingPanel = document.getElementById('chatFloatingPanel');
+        const chatFloatingClose = document.getElementById('chatFloatingClose');
+        const chatMessagesHidden = document.getElementById('chatMessages');
+
+        if (chatFabLabel) {
+            chatFabLabel.style.display = 'none';
+        }
+        if (chatFabBadge) {
+            chatFabBadge.style.display = 'none';
+        }
+
+        if (carouselPrev) {
+            carouselPrev.addEventListener('click', () => changeCarouselPage(-1));
+        }
+        if (carouselNext) {
+            carouselNext.addEventListener('click', () => changeCarouselPage(1));
+        }
+
+        let carouselResizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(carouselResizeTimeout);
+            carouselResizeTimeout = setTimeout(updateCarouselLayout, 200);
+        });
+
+        // ✅ Función para encontrar customerId basado en el token
+        async function findCustomerIdByToken(token, collectionData) {
+            try {
+                if (!token) return;
+                
+                // PRIMERO: Buscar directamente en la colección de clientes por accessToken
+                try {
+                    const customersSnapshot = await getDocs(query(
+                        collection(db, 'customers'),
+                        where('accessToken', '==', token),
+                        limit(1)
+                    ));
+                    
+                    if (!customersSnapshot.empty) {
+                        const customerDoc = customersSnapshot.docs[0];
+                        currentCustomerId = customerDoc.id;
+                        console.log('✅ CustomerId encontrado por accessToken:', currentCustomerId);
+                        return;
+                    }
+                } catch (error) {
+                    console.warn('⚠️ Error buscando cliente por accessToken:', error);
+                }
+                
+                // COMPATIBILIDAD HACIA ATRÁS: Buscar el token en customerAccessTokens de la colección
+                if (collectionData) {
+                    const tokens = collectionData.customerAccessTokens || {};
+                    for (const [customerIdKey, tokenValue] of Object.entries(tokens)) {
+                        if (tokenValue === token) {
+                            currentCustomerId = customerIdKey;
+                            console.log('✅ CustomerId encontrado desde token de colección (compatibilidad):', currentCustomerId);
+                            return;
+                        }
+                    }
+                }
+                
+                // Si no se encuentra en esta colección, buscar en todas las colecciones
+                console.log('🔍 Buscando customerId en todas las colecciones...');
+                const allCollections = await getDocs(collection(db, 'collections'));
+                for (const collDoc of allCollections.docs) {
+                    const collData = collDoc.data();
+                    const collTokens = collData.customerAccessTokens || {};
+                    for (const [customerIdKey, tokenValue] of Object.entries(collTokens)) {
+                        if (tokenValue === token) {
+                            currentCustomerId = customerIdKey;
+                            console.log('✅ CustomerId encontrado en otra colección:', currentCustomerId);
+                            return;
+                        }
+                    }
+                }
+                
+                console.warn('⚠️ No se encontró customerId para el token proporcionado');
+            } catch (error) {
+                console.error('❌ Error buscando customerId:', error);
+            }
+        }
+
+        async function loadAssociatedCustomer(collectionData) {
+            associatedCustomer = null;
+            try {
+                // ✅ PRIORIDAD 1: Usar datos del cliente directamente desde la colección (más rápido y no requiere permisos)
+                if (collectionData.associatedCustomerName) {
+                    associatedCustomer = {
+                        id: collectionData.associatedCustomerId || (collectionData.associatedCustomerIds && collectionData.associatedCustomerIds[0]) || '',
+                        name: collectionData.associatedCustomerName,
+                        email: collectionData.associatedCustomerEmail || '',
+                        phone: collectionData.associatedCustomerPhone || ''
+                    };
+                    console.log('✅ Cliente asociado cargado desde datos de la colección:', associatedCustomer.name);
+                } 
+                // ✅ PRIORIDAD 2: Intentar cargar desde Firestore (fallback si no están en la colección)
+                else if (collectionData.associatedCustomerIds && Array.isArray(collectionData.associatedCustomerIds) && collectionData.associatedCustomerIds.length > 0) {
+                    const customerId = collectionData.associatedCustomerIds[0];
+                    try {
+                        const customerDoc = await getDoc(doc(db, `customers/${customerId}`));
+                        if (customerDoc.exists()) {
+                            associatedCustomer = { id: customerId, ...customerDoc.data() };
+                            console.log('✅ Cliente asociado cargado desde Firestore:', associatedCustomer.name);
+                        }
+                    } catch (err) {
+                        console.warn('⚠️ No se pudo cargar cliente desde Firestore (puede requerir autenticación):', err.message);
+                    }
+                }
+                
+                // Configurar campos del formulario y chip de bienvenida
+                if (associatedCustomer) {
+                    const nameInput = document.getElementById('clientName');
+                    const phoneInput = document.getElementById('clientPhone');
+                    if (nameInput) nameInput.value = associatedCustomer.name || '';
+                    if (phoneInput) phoneInput.value = associatedCustomer.phone || '';
+                    const emailInput = document.getElementById('clientEmail');
+                    if (emailInput && !emailInput.value && associatedCustomer.email) {
+                        emailInput.value = associatedCustomer.email;
+                    }
+                    const welcomeChip = document.getElementById('welcomeChip');
+                    const welcomeName = document.getElementById('welcomeName');
+                    if (welcomeChip && welcomeName && associatedCustomer.name) {
+                        welcomeName.textContent = associatedCustomer.name;
+                        welcomeChip.style.display = 'inline-flex';
+                    }
+                }
+            } catch (err) {
+                console.error('❌ Error cargando cliente asociado:', err);
+            }
+        }
+
+        function getClientName() {
+            const hidden = document.getElementById('clientName')?.value?.trim();
+            if (hidden) return hidden;
+            if (associatedCustomer?.name) return associatedCustomer.name;
+            const headerName = document.getElementById('welcomeName')?.textContent?.trim();
+            if (headerName) return headerName;
+            return 'Cliente';
+        }
+
+        function getClientPhone() {
+            const hidden = document.getElementById('clientPhone')?.value?.trim();
+            if (hidden) return hidden;
+            if (associatedCustomer?.phone) return associatedCustomer.phone;
+            return null;
+        }
+
+        async function loadCollection(id) {
+            try {
+                const collectionRef = doc(db, 'collections', id);
+                const collectionSnap = await getDoc(collectionRef);
+
+                if (!collectionSnap.exists()) {
+                    throw new Error('Colección no encontrada');
+                }
+
+                collectionData = collectionSnap.data();
+                await loadAssociatedCustomer(collectionData);
+                
+                // ✅ Buscar customerId basado en el token de la URL
+                if (tokenFromUrl) {
+                    currentAccessToken = tokenFromUrl;
+                    await findCustomerIdByToken(tokenFromUrl, collectionData);
+                }
+                
+                // 🎨 Aplicar template de la colección si está disponible
+                if (collectionData.webTemplate) {
+                    const collectionTemplate = collectionData.webTemplate.toUpperCase();
+                    const currentTemplate = document.body.className.match(/template-(\w+)/)?.[1];
+                    
+                    // Solo aplicar si es diferente al actual
+                    if (collectionTemplate !== currentTemplate) {
+                        applyTemplate(collectionTemplate);
+                    }
+                }
+
+                // Verificar que la colección esté compartida/pública (tolerante a mayúsculas y flags booleanos)
+                const status = (collectionData.status || '').toString().toUpperCase();
+                const isPublic = collectionData.isPublic === true || collectionData.public === true;
+                const isSharedByStatus = status === 'SHARED' || status === 'ACTIVE';
+                if (!isPublic && !isSharedByStatus) {
+                    throw new Error('Esta colección no está disponible públicamente');
+                }
+
+                document.getElementById('collectionName').textContent = collectionData.name || 'Catálogo';
+                document.getElementById('collectionDescription').textContent = collectionData.description || '';
+
+                                  // Cargar productos de la colección
+                  await loadProducts(id);
+
+                  document.getElementById('loading').style.display = 'none';
+                  if (carouselWrapper) carouselWrapper.style.display = 'block';
+                  
+                // El chip de bienvenida ya se configuró en loadAssociatedCustomer()
+                // No usar fallback de localStorage porque puede contener datos del usuario de la app
+
+                // CTA scroll a productos
+                const subtitle = document.getElementById('headerSubtitle');
+                if (subtitle) {
+                    subtitle.addEventListener('click', () => {
+                        carouselWrapper?.scrollIntoView({ behavior: 'smooth' });
+                    });
+                }
+
+                  // Verificar si hay un pedido pendiente en localStorage
+                  const lastOrderId = localStorage.getItem('lastOrderId');
+                  const lastCollectionId = localStorage.getItem('lastOrderCollectionId');
+                  
+                  if (lastOrderId && lastCollectionId && id === lastCollectionId) {
+                      // Mostrar sección de estado y ocultar formulario
+                      document.getElementById('orderForm').style.display = 'none';
+                      document.getElementById('orderStatusSection').style.display = 'block';
+                      loadOrderStatus(id, lastOrderId);
+                  } else {
+                      // Mostrar formulario si no hay pedido pendiente
+                      document.getElementById('orderForm').style.display = 'block';
+                  }
+                  
+                  // Configurar chat si está habilitado en la colección
+                  if (collectionData.enableChat) {
+                      if (chatFab) {
+                          chatFab.style.display = 'flex';
+                      }
+                      if (chatFabLabel) {
+                          chatFabLabel.style.display = 'block';
+                          setTimeout(() => {
+                              chatFabLabel.style.display = 'none';
+                          }, 6000);
+                      }
+                      setTimeout(() => loadChat(id), 300);
+                  } else {
+                      if (chatFab) chatFab.style.display = 'none';
+                      if (chatFabLabel) chatFabLabel.style.display = 'none';
+                      if (chatFloatingPanel) chatFloatingPanel.style.display = 'none';
+                  }
+            } catch (error) {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('error').style.display = 'block';
+                document.getElementById('error').textContent = 'Error: ' + error.message;
+            }
+        }
+
+        async function loadProducts(collectionId) {
+            try {
+                if (productsTrack) {
+                    productsTrack.innerHTML = '';
+                }
+                if (carouselIndicators) {
+                    carouselIndicators.innerHTML = '';
+                }
+                if (carouselWrapper) {
+                    carouselWrapper.style.display = 'none';
+                }
+
+                // Intentar cargar items desde subcolección
+                let items = [];
+                try {
+                    const itemsSnapshot = await getDocs(collection(db, `collections/${collectionId}/items`));
+                    items = itemsSnapshot.docs.map(doc => ({
+                        id: doc.id,
+                        productId: doc.id,
+                        ...doc.data()
+                    }));
+                } catch (e) {
+                    console.log('No se encontró subcolección items, intentando otra forma...', e);
+                }
+
+                // Si no hay items en subcolección, intentar desde el documento de la colección
+                if (items.length === 0 && collectionData) {
+                    try {
+                        const collectionDoc = await getDoc(doc(db, `collections/${collectionId}`));
+                        if (collectionDoc.exists()) {
+                            const data = collectionDoc.data();
+                            if (data.items && Array.isArray(data.items)) {
+                                items = data.items.map((item, index) => ({
+                                    productId: item.productId || item.id || `item_${index}`,
+                                    ...item
+                                }));
+                            } else if (data.items && typeof data.items === 'object') {
+                                items = Object.entries(data.items).map(([productId, itemData]) => {
+                                    const item = itemData || {};
+                                    return {
+                                        productId,
+                                        id: productId,
+                                        ...item,
+                                        ...(item.productId ? {} : { productId })
+                                    };
+                                });
+                                console.log('📦 Items cargados desde mapa:', items);
+                            }
+                        }
+                    } catch (e) {
+                        console.error('❌ Error cargando items del documento:', e);
+                    }
+                }
+
+                if (items.length === 0) {
+                    const isDark = document.body.classList.contains('template-DARK');
+                    const emptyStateColor = isDark ? '#b0b0b0' : '#666';
+                    if (productsTrack) {
+                        productsTrack.innerHTML = `<div class="empty-state" style="text-align: center; padding: 20px; color: ${emptyStateColor};">No hay productos disponibles en esta colección. Contacta al negocio para más información.</div>`;
+                    }
+                    if (carouselWrapper) {
+                        carouselWrapper.style.display = 'block';
+                    }
+                    if (carouselPrev) carouselPrev.disabled = true;
+                    if (carouselNext) carouselNext.disabled = true;
+                    return;
+                }
+
+                // Construir productos para renderizar
+                productsToRender = [];
+                const productsNotFound = [];
+                console.log('📦 Total items en colección:', items.length);
+
+                for (const item of items) {
+                    const productId = item.productId || item.id || (typeof item === 'string' ? item : null);
+                    if (!productId) {
+                        console.warn('⚠️ Item sin productId:', item);
+                        continue;
+                    }
+
+                    console.log(`🔍 Item ${productId} - Campos disponibles:`, Object.keys(item));
+
+                    const hasProductData = item.name || item.productName ||
+                        item.salePrice !== undefined ||
+                        item.imageUrl || item.photoUrl ||
+                        item.description || item.sku;
+
+                    if (hasProductData) {
+                        productsToRender.push({
+                            id: productId,
+                            name: item.name || item.productName || 'Producto sin nombre',
+                            description: item.description || '',
+                            salePrice: item.specialPrice || item.salePrice || 0,
+                            imageUrl: item.imageUrl || item.photoUrl || null,
+                            stockQuantity: item.stockQuantity || item.currentStock || 0,
+                            notes: item.notes || '',
+                            isFeatured: item.isFeatured || false,
+                            displayOrder: item.displayOrder || 0
+                        });
+                        productsData[productId] = item;
+                        continue;
+                    }
+
+                    try {
+                        const productDoc = await getDoc(doc(db, `products/${productId}`));
+                        if (productDoc.exists()) {
+                            const productData = productDoc.data();
+                            productsToRender.push({
+                                id: productId,
+                                name: productData.name || 'Producto sin nombre',
+                                description: productData.description || '',
+                                salePrice: item.specialPrice || productData.salePrice || 0,
+                                imageUrl: productData.imageUrl || productData.photoUrl || null,
+                                stockQuantity: productData.stockQuantity || productData.currentStock || 0,
+                                notes: item.notes || '',
+                                isFeatured: item.isFeatured || false,
+                                displayOrder: item.displayOrder || 0
+                            });
+                            productsData[productId] = productData;
+                        } else {
+                            console.warn(`⚠️ Producto ${productId} no encontrado en /products/${productId}`);
+                            productsNotFound.push(productId);
+                        }
+                    } catch (e) {
+                        console.error(`❌ Error cargando producto ${productId}:`, e);
+                        productsNotFound.push(productId);
+                    }
+                }
+
+                if (productsNotFound.length > 0) {
+                    console.warn('Productos no encontrados en /products:', productsNotFound);
+                }
+
+                productsToRender.sort((a, b) => (a.displayOrder || 0) - (b.displayOrder || 0));
+
+                if (productsToRender.length === 0) {
+                    const isDark = document.body.classList.contains('template-DARK');
+                    const emptyStateColor = isDark ? '#b0b0b0' : '#666';
+                    if (productsTrack) {
+                        productsTrack.innerHTML = `<div class="empty-state" style="text-align: center; padding: 20px; color: ${emptyStateColor};">No se pudieron cargar los productos. Verifica que la colección tenga productos asociados y que sean accesibles públicamente.</div>`;
+                    }
+                    if (carouselWrapper) {
+                        carouselWrapper.style.display = 'block';
+                    }
+                    if (carouselPrev) carouselPrev.disabled = true;
+                    if (carouselNext) carouselNext.disabled = true;
+                    return;
+                }
+
+                // Detectar template activo para usar colores apropiados
+                const isDark = document.body.classList.contains('template-DARK');
+                const imageBg = isDark ? '#3a3a3a' : '#f0f0f0';
+                const imageTextColor = isDark ? '#b0b0b0' : '#999';
+                const descriptionColor = isDark ? '#b0b0b0' : '#666';
+                const priceColor = isDark ? '#818cf8' : '#312783';
+                const notesColor = isDark ? '#60a5fa' : '#009FE3';
+                const ratingInactive = isDark ? '#6b7280' : '#d1d5db';
+                const stockAvailableColor = '#4CAF50'; // Verde funciona en ambos
+                const stockUnavailableColor = '#f87171'; // Rojo más claro para modo oscuro
+                
+                if (productsTrack) {
+                    productsTrack.innerHTML = productsToRender.map((product) => `
+                        <div class="carousel-slide">
+                            <div class="product-card ${product.isFeatured ? 'featured' : ''}">
+                                <div class="product-image" style="width: 100%; height: 150px; background: ${imageBg}; border-radius: 8px; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative;">
+                                    ${product.imageUrl ?
+                                        `<img src="${product.imageUrl}" alt="${product.name}" style="width: 100%; height: 100%; object-fit: cover;">` :
+                                        `<span style="color: ${imageTextColor};">Sin imagen</span>`
+                                    }
+                                    ${product.isFeatured ? `<span style="position: absolute; top: 8px; right: 8px; background: #FFD700; color: ${isDark ? '#1a1a1a' : '#000'}; padding: 4px 8px; border-radius: 4px; font-size: 0.75em; font-weight: bold;">⭐ Destacado</span>` : ''}
+                                </div>
+                                <h3>${product.name}</h3>
+                                ${product.description ? `<p class="product-description" style="color: ${descriptionColor}; font-size: 0.9em; margin: 8px 0;">${product.description}</p>` : ''}
+                                ${product.notes ? `<p class="product-notes" style="color: ${notesColor}; font-size: 0.85em; margin: 5px 0; font-style: italic;">${product.notes}</p>` : ''}
+                                <p class="product-price" style="font-weight: bold; color: ${priceColor}; font-size: 1.1em; margin: 10px 0;">
+                                    $${product.salePrice.toLocaleString('es-CL')}
+                                </p>
+                                <div class="rating" aria-label="Calificación" style="margin:6px 0;">
+                                    ${[1,2,3,4,5].map(star => `
+                                        <span role="button" aria-label="${star} estrellas" onclick="setRating('${product.id}', ${star})" style="cursor:pointer; font-size:18px; color:${(selectedItems[product.id]?.rating||0) >= star ? '#F59E0B' : ratingInactive};">★</span>
+                                    `).join('')}
+                                </div>
+                                ${product.stockQuantity <= 0 ? `<p class="stock-status" style="color: ${stockUnavailableColor}; font-size: 0.85em; margin: 5px 0;">⚠️ Sin stock</p>` : `<p class="stock-status" style="color: ${stockAvailableColor}; font-size: 0.85em; margin: 5px 0;">✓ Disponible</p>`}
+                                <div class="quantity-control">
+                                    <button onclick="updateQuantity('${product.id}', -1)" ${product.stockQuantity <= 0 ? 'disabled style="opacity: 0.5;"' : ''}>-</button>
+                                    <span id="qty-${product.id}">0</span>
+                                    <button onclick="updateQuantity('${product.id}', 1)" ${product.stockQuantity <= 0 ? 'disabled style="opacity: 0.5;"' : ''}>+</button>
+                                </div>
+                                <input type="text" class="notes-input" placeholder="Notas adicionales (opcional)..." onchange="updateNotes('${product.id}', this.value)">
+                            </div>
+                        </div>
+                    `).join('');
+                }
+
+                if (carouselWrapper) {
+                    carouselWrapper.style.display = 'block';
+                }
+
+                if (Object.keys(selectedItems).length === 0) {
+                    productsToRender.forEach(product => {
+                        selectedItems[product.id] = {
+                            quantity: 0,
+                            notes: '',
+                            rating: null
+                        };
+                    });
+                }
+
+                loadFormFromLocalStorage();
+
+                carouselIndex = 0;
+                updateCarouselLayout();
+                updateCarouselIndicators();
+                updateCarouselNavState();
+            } catch (error) {
+                console.error('Error cargando productos:', error);
+            }
+        }
+
+        function computeVisibleSlides() {
+            const width = window.innerWidth;
+            if (width >= 1200) return 3;
+            if (width >= 768) return 2;
+            return 1;
+        }
+
+        function updateCarouselLayout() {
+            if (!productsTrack) return;
+            const slides = productsTrack.querySelectorAll('.carousel-slide');
+            if (slides.length === 0) return;
+            visibleSlides = computeVisibleSlides();
+            slides.forEach(slide => {
+                slide.style.flex = `0 0 calc(100% / ${visibleSlides})`;
+            });
+            updateCarouselPosition();
+        }
+
+        function updateCarouselPosition() {
+            if (!productsTrack) return;
+            const pageCount = Math.max(1, Math.ceil(productsToRender.length / visibleSlides));
+            if (carouselIndex >= pageCount) {
+                carouselIndex = pageCount - 1;
+            }
+            if (carouselIndex < 0) {
+                carouselIndex = 0;
+            }
+            productsTrack.style.transform = `translateX(-${carouselIndex * 100}%)`;
+            updateCarouselNavState();
+            updateCarouselIndicators();
+        }
+
+        function updateCarouselIndicators() {
+            if (!carouselIndicators) return;
+            if (productsToRender.length === 0) {
+                carouselIndicators.innerHTML = '';
+                return;
+            }
+            const pageCount = Math.max(1, Math.ceil(productsToRender.length / visibleSlides));
+            carouselIndicators.innerHTML = '';
+            for (let i = 0; i < pageCount; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'carousel-dot' + (i === carouselIndex ? ' active' : '');
+                dot.addEventListener('click', () => {
+                    carouselIndex = i;
+                    updateCarouselPosition();
+                });
+                carouselIndicators.appendChild(dot);
+            }
+        }
+
+        function updateCarouselNavState() {
+            const pageCount = Math.ceil(productsToRender.length / visibleSlides);
+            if (carouselPrev) {
+                carouselPrev.disabled = carouselIndex <= 0 || pageCount <= 1;
+            }
+            if (carouselNext) {
+                carouselNext.disabled = pageCount <= 1 || carouselIndex >= pageCount - 1;
+            }
+        }
+
+        function changeCarouselPage(delta) {
+            const pageCount = Math.ceil(productsToRender.length / visibleSlides);
+            if (pageCount <= 1) return;
+            carouselIndex = Math.min(pageCount - 1, Math.max(0, carouselIndex + delta));
+            updateCarouselPosition();
+        }
+
+                 window.updateQuantity = function(productId, delta) {
+             if (!selectedItems[productId]) {
+                 selectedItems[productId] = { quantity: 0, notes: '', rating: null };
+             }
+             
+             const newQty = Math.max(0, selectedItems[productId].quantity + delta);
+             selectedItems[productId].quantity = newQty;
+             
+             document.getElementById(`qty-${productId}`).textContent = newQty;
+             updateTotal();
+             saveFormToLocalStorage();
+         };
+
+                 window.updateNotes = function(productId, notes) {
+             if (!selectedItems[productId]) {
+                 selectedItems[productId] = { quantity: 0, notes: '', rating: null };
+             }
+             selectedItems[productId].notes = notes;
+             saveFormToLocalStorage();
+         };
+
+        // Calificación por estrellas
+        window.setRating = function(productId, rating) {
+            if (!selectedItems[productId]) {
+                selectedItems[productId] = { quantity: 0, notes: '', rating: null };
+            }
+            selectedItems[productId].rating = rating;
+            saveFormToLocalStorage();
+            // Re-render parcial: actualizar color de estrellas
+            const card = document.querySelector(`.product-card input[onchange*="${productId}"]`)?.closest('.product-card');
+            if (card) {
+                const stars = card.querySelectorAll('.rating span');
+                stars.forEach((el, idx) => {
+                    el.style.color = (idx + 1) <= rating ? '#F59E0B' : '#d1d5db';
+                });
+            }
+        };
+
+        function updateTotal() {
+            let total = 0;
+            let itemCount = 0;
+
+            Object.keys(selectedItems).forEach(productId => {
+                const item = selectedItems[productId];
+                if (item.quantity > 0) {
+                    // Obtener el precio del producto (usar specialPrice si existe, sino salePrice)
+                    const product = productsToRender.find(p => p.id === productId);
+                    if (product) {
+                        const price = product.salePrice || 0;
+                        total += price * item.quantity;
+                        itemCount += item.quantity;
+                    }
+                }
+            });
+
+            document.getElementById('totalAmount').textContent = total.toLocaleString('es-CL');
+            document.getElementById('itemCount').textContent = itemCount + ' item' + (itemCount !== 1 ? 's' : '');
+            
+            document.getElementById('submitOrder').disabled = itemCount === 0;
+        }
+
+                 // Funciones de validación
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+         
+         function showFieldError(fieldId, errorId, message) {
+             const field = document.getElementById(fieldId);
+             const errorSpan = document.getElementById(errorId);
+             field.classList.add('error');
+             field.classList.remove('valid');
+             errorSpan.textContent = message;
+             errorSpan.style.display = 'block';
+         }
+         
+         function showFieldValid(fieldId, errorId) {
+             const field = document.getElementById(fieldId);
+             const errorSpan = document.getElementById(errorId);
+             field.classList.remove('error');
+             field.classList.add('valid');
+             errorSpan.style.display = 'none';
+         }
+         
+         function clearFieldValidation(fieldId, errorId) {
+             const field = document.getElementById(fieldId);
+             const errorSpan = document.getElementById(errorId);
+             field.classList.remove('error', 'valid');
+             errorSpan.style.display = 'none';
+         }
+         
+         // Validación en tiempo real
+         document.getElementById('clientEmail').addEventListener('blur', function() {
+             const value = this.value.trim();
+             if (!value) {
+                 showFieldError('clientEmail', 'clientEmailError', 'El email es requerido');
+             } else if (!validateEmail(value)) {
+                 showFieldError('clientEmail', 'clientEmailError', 'Ingresa un email válido');
+             } else {
+                 showFieldValid('clientEmail', 'clientEmailError');
+                const chip = document.getElementById('welcomeChip');
+                const nameSpan = document.getElementById('welcomeName');
+                if (!associatedCustomer || !associatedCustomer.name) {
+                    if (chip && nameSpan) {
+                        nameSpan.textContent = value;
+                        chip.style.display = 'inline-flex';
+                    }
+                    const hiddenName = document.getElementById('clientName');
+                    if (hiddenName) hiddenName.value = value;
+                }
+             }
+             saveFormToLocalStorage();
+         });
+         
+         // Persistencia local del formulario
+         function saveFormToLocalStorage() {
+             const formData = {
+                 clientName: document.getElementById('clientName').value,
+                 clientEmail: document.getElementById('clientEmail').value,
+                 deliveryMethod: document.getElementById('deliveryMethod').value,
+                 address: document.getElementById('address').value,
+                 paymentMethod: document.getElementById('paymentMethod').value,
+                desiredDate: document.getElementById('desiredDate').value,
+                observations: document.getElementById('observations').value,
+                 selectedItems: selectedItems
+             };
+             localStorage.setItem(`orderForm_${collectionId}`, JSON.stringify(formData));
+         }
+         
+         function loadFormFromLocalStorage() {
+             const saved = localStorage.getItem(`orderForm_${collectionId}`);
+             if (saved) {
+                 try {
+                     const formData = JSON.parse(saved);
+                     if (formData.clientName) {
+                         document.getElementById('clientName').value = formData.clientName;
+                     }
+                     document.getElementById('clientEmail').value = formData.clientEmail || '';
+                     document.getElementById('deliveryMethod').value = formData.deliveryMethod || '';
+                     document.getElementById('address').value = formData.address || '';
+                     document.getElementById('paymentMethod').value = formData.paymentMethod || '';
+                    document.getElementById('desiredDate').value = formData.desiredDate || '';
+                     document.getElementById('observations').value = formData.observations || '';
+                     if (formData.selectedItems) {
+                 selectedItems = formData.selectedItems;
+                 // Restaurar cantidades en la UI
+                 Object.keys(selectedItems).forEach(productId => {
+                             const qtyElement = document.getElementById(`qty-${productId}`);
+                             if (qtyElement) {
+                                 qtyElement.textContent = selectedItems[productId].quantity || 0;
+                             }
+                     const rating = selectedItems[productId].rating || 0;
+                     const stars = document.querySelectorAll(`.product-card .rating span[onclick*="${productId}"]`);
+                     stars.forEach((star, idx) => {
+                         star.style.color = (idx + 1) <= rating ? '#F59E0B' : '#d1d5db';
+                     });
+                         });
+                         updateTotal();
+                     }
+                 } catch (e) {
+                     console.error('Error cargando formulario guardado:', e);
+                 }
+             }
+         }
+         
+                   function clearFormFromLocalStorage() {
+              localStorage.removeItem(`orderForm_${collectionId}`);
+          }
+          
+          /**
+           * 👤 CREAR O ACTUALIZAR CLIENTE EN FIRESTORE
+           * 
+           * Cuando un cliente realiza un pedido desde la mini-web, 
+           * creamos o actualizamos su registro en la colección "customers".
+           * Esto permite mantener un historial de clientes y sus pedidos.
+           */
+          // Guardar formulario cada vez que cambie algo
+         ['clientName', 'clientEmail', 'deliveryMethod', 'address', 
+          'paymentMethod', 'desiredDate', 'observations'].forEach(fieldId => {
+             const field = document.getElementById(fieldId);
+             if (field) {
+                 field.addEventListener('input', saveFormToLocalStorage);
+                 field.addEventListener('change', saveFormToLocalStorage);
+             }
+         });
+         
+         // Mostrar/ocultar campo de dirección según método de entrega
+         document.getElementById('deliveryMethod').addEventListener('change', function(e) {
+             const addressGroup = document.getElementById('addressGroup');
+             if (e.target.value === 'despacho') {
+                 addressGroup.style.display = 'block';
+                 document.getElementById('address').required = true;
+             } else {
+                 addressGroup.style.display = 'none';
+                 document.getElementById('address').required = false;
+             }
+             saveFormToLocalStorage();
+         });
+
+                 // Validar formulario completo antes de enviar
+         function validateForm() {
+             let isValid = true;
+             
+             // Validar nombre
+             // Validar email
+             const email = document.getElementById('clientEmail').value.trim();
+             if (!email || !validateEmail(email)) {
+                 showFieldError('clientEmail', 'clientEmailError', 'Ingresa un email válido');
+                 isValid = false;
+             } else {
+                 showFieldValid('clientEmail', 'clientEmailError');
+             }
+             
+             // Validar método de entrega
+             const deliveryMethod = document.getElementById('deliveryMethod').value;
+             if (!deliveryMethod) {
+                 alert('Por favor selecciona un método de entrega');
+                 isValid = false;
+             }
+             
+             // Validar dirección si es despacho
+             if (deliveryMethod === 'despacho') {
+                 const address = document.getElementById('address').value.trim();
+                 if (!address) {
+                     alert('Por favor ingresa la dirección de entrega');
+                     isValid = false;
+                 }
+             }
+             
+             // Validar método de pago
+             const paymentMethod = document.getElementById('paymentMethod').value;
+             if (!paymentMethod) {
+                 alert('Por favor selecciona un método de pago');
+                 isValid = false;
+             }
+             
+             // Validar que haya items seleccionados
+             const itemCount = parseInt(document.getElementById('itemCount').textContent.split(' ')[0]);
+             if (itemCount === 0) {
+                 alert('Por favor agrega al menos un producto a tu pedido');
+                 isValid = false;
+             }
+             
+             return isValid;
+         }
+         
+         // Enviar pedido
+         document.getElementById('submitOrder').addEventListener('click', async function() {
+             // Validar formulario
+             if (!validateForm()) {
+                 // Scroll al primer error
+                 const firstError = document.querySelector('.form-group input.error, .form-group select.error');
+                 if (firstError) {
+                     firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                     firstError.focus();
+                 }
+                 return;
+             }
+             
+             // Preparar items del pedido en el formato correcto
+             const orderItems = {};
+             Object.keys(selectedItems).forEach(productId => {
+                 const item = selectedItems[productId];
+                 if (item.quantity > 0) {
+                     const product = productsToRender.find(p => p.id === productId);
+                     orderItems[productId] = {
+                         quantity: item.quantity,
+                         notes: item.notes || null,
+                         rating: null,
+                         customization: null
+                     };
+                 }
+             });
+ 
+            const clientEmail = document.getElementById('clientEmail').value.trim();
+            const orderData = {
+                collectionId: collectionId,
+                clientName: getClientName(),
+                clientEmail: clientEmail,
+                clientPhone: getClientPhone(),
+                 deliveryMethod: document.getElementById('deliveryMethod').value,
+                 address: document.getElementById('address').value.trim() || null,
+                 paymentMethod: document.getElementById('paymentMethod').value,
+                 desiredDate: document.getElementById('desiredDate').value || null,
+                 observations: document.getElementById('observations').value.trim() || null,
+                 items: orderItems,
+                 subtotal: parseFloat(document.getElementById('totalAmount').textContent.replace(/\./g, '').replace(',', '.')),
+                 itemCount: parseInt(document.getElementById('itemCount').textContent.split(' ')[0]),
+                 status: 'APPROVED',
+                 consentToContact: true,
+                 // ✅ Agregar customerId y accessToken si están disponibles
+                 customerId: currentCustomerId || null,
+                 accessToken: currentAccessToken || tokenFromUrl || null,
+                 createdAt: new Date().toISOString(),
+                 updatedAt: new Date().toISOString()
+             };
+ 
+             try {
+                  // Deshabilitar botón mientras se envía
+                  const submitBtn = document.getElementById('submitOrder');
+                  submitBtn.disabled = true;
+                  submitBtn.textContent = 'Enviando...';
+                  
+                  const responsesRef = collection(db, `collections/${collectionId}/responses`);
+                  const docRef = await addDoc(responsesRef, orderData);
+                  
+                  // Guardar el ID del pedido en localStorage
+                  const responseId = docRef.id;
+                  localStorage.setItem('lastOrderId', responseId);
+                  localStorage.setItem('lastOrderCollectionId', collectionId);
+                  
+                  // 👤 Crear o actualizar cliente en Firestore
+                  // Limpiar formulario guardado
+                  clearFormFromLocalStorage();
+                  
+                  // Ocultar formulario y mostrar sección de aprobaciones
+                  document.getElementById('orderForm').style.display = 'none';
+                  document.getElementById('orderStatusSection').style.display = 'block';
+                  
+                  // Cargar y escuchar cambios del pedido
+                  loadOrderStatus(collectionId, responseId);
+                  
+                  alert('¡Pedido enviado exitosamente! El negocio lo procesará pronto.');
+               } catch (error) {
+                  console.error('Error al enviar pedido:', error);
+                  alert('Error al enviar el pedido: ' + error.message);
+                  
+                  // Rehabilitar botón
+                  submitBtn.disabled = false;
+                  submitBtn.textContent = 'Enviar pedido';
+               }
+           });
+
+                  // Variables globales para el pedido
+          let currentResponseId = null;
+          let orderStatusListener = null;
+          
+          // Función para cargar el estado del pedido y escuchar cambios
+          function loadOrderStatus(collectionId, responseId) {
+              currentResponseId = responseId;
+              const responseRef = doc(db, `collections/${collectionId}/responses/${responseId}`);
+              
+              // Limpiar listener anterior si existe
+              if (orderStatusListener) {
+                  orderStatusListener();
+              }
+              
+              // Escuchar cambios en tiempo real
+              orderStatusListener = onSnapshot(responseRef, (docSnapshot) => {
+                  if (docSnapshot.exists()) {
+                      const orderData = docSnapshot.data();
+                      updateOrderStatusUI(orderData);
+                  }
+              }, (error) => {
+                  console.error('Error al escuchar cambios del pedido:', error);
+              });
+              
+              // Cargar datos iniciales
+              getDoc(responseRef).then((docSnapshot) => {
+                  if (docSnapshot.exists()) {
+                      const orderData = docSnapshot.data();
+                      updateOrderStatusUI(orderData);
+                  }
+              });
+          }
+          
+          // Función para actualizar la UI con el estado del pedido
+          function updateOrderStatusUI(orderData) {
+              const status = orderData.status || 'APPROVED';
+              
+              // Actualizar badge de estado
+              const statusBadge = document.getElementById('statusBadge');
+              const statusDescription = document.getElementById('statusDescription');
+              const orderStatusText = document.getElementById('orderStatusText');
+              
+              if (status === 'APPROVED') {
+                  statusBadge.textContent = 'Pedido Aprobado';
+                  statusBadge.className = 'status-badge approved';
+                  statusDescription.textContent = 'Tu pedido ha sido recibido y está listo para procesar.';
+                  orderStatusText.textContent = 'El negocio procesará tu pedido y te notificará sobre su estado.';
+              } else if (status === 'IN_PRODUCTION') {
+                  statusBadge.textContent = 'En Producción';
+                  statusBadge.className = 'status-badge in-production';
+                  statusDescription.textContent = 'Tu pedido está siendo fabricado.';
+                  orderStatusText.textContent = 'El negocio está trabajando en tu pedido.';
+              } else if (status === 'READY_FOR_DELIVERY') {
+                  statusBadge.textContent = 'Listo para Entrega';
+                  statusBadge.className = 'status-badge ready';
+                  statusDescription.textContent = 'Tu pedido está listo para ser entregado.';
+                  orderStatusText.textContent = 'El negocio te contactará para coordinar la entrega.';
+              } else if (status === 'DELIVERED') {
+                  statusBadge.textContent = 'Entregado';
+                  statusBadge.className = 'status-badge delivered';
+                  statusDescription.textContent = 'Tu pedido ha sido entregado.';
+                  orderStatusText.textContent = '¡Gracias por tu compra!';
+              } else {
+                  statusBadge.textContent = 'Pedido Enviado';
+                  statusBadge.className = 'status-badge pending';
+                  statusDescription.textContent = 'Tu pedido ha sido enviado exitosamente.';
+                  orderStatusText.textContent = 'El negocio lo procesará pronto.';
+              }
+          }
+          
+          // Chat
+          let chatListener = null;
+          
+          function loadChat(collectionId) {
+            // Limpiar listener anterior si existe
+            if (chatListener) {
+                chatListener();
+                chatListener = null;
+            }
+            
+            const messagesDiv = chatMessagesHidden;
+            if (!messagesDiv) {
+                console.error('❌ No se encontró el contenedor de mensajes del chat');
+                return;
+            }
+            
+            // Mostrar estado de carga
+            messagesDiv.innerHTML = '<p style="text-align: center; color: #666; padding: 20px;">Cargando mensajes...</p>';
+            
+            // PRIORIDAD: Si hay customerId, usar chat centralizado del cliente
+            // Si no, usar chat por colección (compatibilidad hacia atrás)
+            let messagesRef;
+            if (currentCustomerId) {
+                // Chat centralizado del cliente
+                messagesRef = collection(db, `customers/${currentCustomerId}/messages`);
+                console.log(`💬 Cargando chat centralizado del cliente: ${currentCustomerId}`);
+            } else {
+                // Chat por colección (compatibilidad)
+                messagesRef = collection(db, `collections/${collectionId}/messages`);
+                console.log(`💬 Cargando chat de colección: ${collectionId}`);
+            }
+            
+            // Ordenar por timestamp ascendente (más antiguos primero, recientes al final)
+            const q = query(messagesRef, orderBy('timestamp', 'asc'));
+
+            chatListener = onSnapshot(q, (snapshot) => {
+                if (!messagesDiv) return;
+                
+                messagesDiv.innerHTML = '';
+                
+                if (snapshot.empty) {
+                    const isDark = document.body.classList.contains('template-DARK');
+                    const emptyColor = isDark ? '#b0b0b0' : '#666';
+                    const emptyDiv = document.createElement('div');
+                    emptyDiv.style.cssText = `text-align: center; color: ${emptyColor}; padding: 20px; font-size: 0.9em;`;
+                    emptyDiv.textContent = 'No hay mensajes aún. ¡Inicia la conversación!';
+                    messagesDiv.appendChild(emptyDiv);
+                    if (chatFloatingPanel && chatFloatingPanel.style.display === 'flex') {
+                        syncFloatingMessages();
+                    }
+                    return;
+                }
+                
+                // Los mensajes ya vienen ordenados de más antiguo a más reciente
+                snapshot.forEach((doc) => {
+                    const msg = doc.data();
+                    const isBusiness = msg.senderType === 'BUSINESS';
+                    
+                    // Crear wrapper para alineación
+                    const wrapperDiv = document.createElement('div');
+                    wrapperDiv.className = `message-wrapper ${isBusiness ? 'business' : 'client'}`;
+                    
+                    // Crear burbuja de mensaje
+                    const msgDiv = document.createElement('div');
+                    msgDiv.className = `message ${isBusiness ? 'business' : 'client'}`;
+                    
+                    // Solo mostrar nombre del autor en mensajes del cliente
+                    let authorHtml = '';
+                    if (!isBusiness && msg.senderName) {
+                        authorHtml = `<div class="message-author">${msg.senderName}</div>`;
+                    }
+                    
+                    msgDiv.innerHTML = `
+                        ${authorHtml}
+                        <div class="message-content">${msg.message || ''}</div>
+                    `;
+                    
+                    wrapperDiv.appendChild(msgDiv);
+                    messagesDiv.appendChild(wrapperDiv);
+                });
+                
+                // Hacer scroll al final para mostrar los mensajes más recientes
+                // Usar requestAnimationFrame para asegurar que el DOM se actualizó
+                requestAnimationFrame(() => {
+                    setTimeout(() => {
+                        if (messagesDiv) {
+                            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+                        }
+                        if (chatFloatingPanel && chatFloatingPanel.style.display === 'flex') {
+                            syncFloatingMessages();
+                        }
+                    }, 50);
+                });
+            }, (error) => {
+                console.error('❌ Error al cargar mensajes del chat:', error);
+                if (messagesDiv) {
+                    const isDark = document.body.classList.contains('template-DARK');
+                    const errorColor = isDark ? '#f87171' : '#f44336';
+                    const errorDiv = document.createElement('div');
+                    errorDiv.style.cssText = `text-align: center; color: ${errorColor}; padding: 20px; font-size: 0.9em;`;
+                    errorDiv.textContent = 'Error al cargar mensajes. Por favor, recarga la página.';
+                    messagesDiv.innerHTML = '';
+                    messagesDiv.appendChild(errorDiv);
+                    if (chatFloatingPanel && chatFloatingPanel.style.display === 'flex') {
+                        syncFloatingMessages();
+                    }
+                }
+            });
+        }
+
+        // Inicializar botón de enviar mensaje cuando el DOM esté listo
+        // ----------------------
+        // Chat flotante (FAB)
+        // ----------------------
+        let unreadCount = 0;
+
+        function toggleFloatingChat(open) {
+            if (!chatFloatingPanel) return;
+            const show = open !== undefined ? open : (chatFloatingPanel.style.display !== 'flex');
+            chatFloatingPanel.style.display = show ? 'flex' : 'none';
+            if (show) {
+                unreadCount = 0;
+                if (chatFabBadge) chatFabBadge.style.display = 'none';
+                if (chatFabLabel) chatFabLabel.style.display = 'none';
+                // Sincronizar mensajes en el panel flotante
+                syncFloatingMessages();
+            }
+        }
+
+        if (chatFab) {
+            chatFab.addEventListener('click', () => toggleFloatingChat());
+        }
+        if (chatFloatingClose) {
+            chatFloatingClose.addEventListener('click', () => toggleFloatingChat(false));
+        }
+
+        // Duplicar envío desde panel flotante
+        (function initFloatingSend(){
+            const btn = document.getElementById('sendMessageFloating');
+            const input = document.getElementById('chatInputFloating');
+            if (!btn || !input) return;
+            btn.addEventListener('click', async function(){
+                const message = input.value.trim();
+                if (!message) return;
+                const clientName = getClientName();
+                const clientEmail = document.getElementById('clientEmail')?.value?.trim() || 'anonymous';
+                try {
+                    // PRIORIDAD: Si hay customerId, usar chat centralizado del cliente
+                    // Si no, usar chat por colección (compatibilidad hacia atrás)
+                    let messagesRef;
+                    let messageData;
+                    
+                    if (currentCustomerId) {
+                        // Chat centralizado del cliente
+                        messagesRef = collection(db, `customers/${currentCustomerId}/messages`);
+                        messageData = {
+                            senderType: 'CLIENT',
+                            senderId: currentCustomerId,
+                            senderName: clientName,
+                            message: message,
+                            timestamp: serverTimestamp(),
+                            read: false,
+                            attachments: []
+                        };
+                        console.log(`💬 Enviando mensaje al chat centralizado del cliente: ${currentCustomerId}`);
+                    } else {
+                        // Chat por colección (compatibilidad)
+                        messagesRef = collection(db, `collections/${collectionId}/messages`);
+                        messageData = {
+                            collectionId: collectionId,
+                            senderType: 'CLIENT',
+                            senderId: clientEmail,
+                            senderName: clientName,
+                            message: message,
+                            timestamp: serverTimestamp(),
+                            read: false,
+                            attachments: []
+                        };
+                        console.log(`💬 Enviando mensaje al chat de colección: ${collectionId}`);
+                    }
+                    
+                    await addDoc(messagesRef, messageData);
+                    input.value = '';
+                } catch (e) { console.error(e); }
+            });
+            input.addEventListener('keypress', function(e){
+                if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); btn.click(); }
+            });
+        })();
+
+        // Mantener sincronizados mensajes al panel flotante
+        function syncFloatingMessages() {
+            const src = chatMessagesHidden;
+            const dst = document.getElementById('chatMessagesFloating');
+            if (src && dst) {
+                dst.innerHTML = src.innerHTML;
+                dst.scrollTop = dst.scrollHeight;
+            }
+        }
+
+        // Incrementar badge cuando lleguen mensajes del negocio y el panel esté cerrado
+        const _loadChatOrig = loadChat;
+        loadChat = function(collectionId) {
+            _loadChatOrig(collectionId);
+            // Hook ligero: observar cambios en el contenedor para badge
+            const messagesDiv = chatMessagesHidden;
+            if (messagesDiv) {
+                const obs = new MutationObserver(() => {
+                    // Buscar último mensaje
+                    const last = messagesDiv.lastElementChild;
+                    if (!last) return;
+                    const isBusiness = last.classList.contains('business');
+                    if (isBusiness && chatFloatingPanel && chatFloatingPanel.style.display !== 'flex') {
+                        unreadCount += 1;
+                        if (chatFabBadge) {
+                            chatFabBadge.textContent = String(unreadCount);
+                            chatFabBadge.style.display = 'flex';
+                        }
+                        notifyBrowser('Nuevo mensaje del negocio');
+                    }
+                    if (chatFloatingPanel && chatFloatingPanel.style.display === 'flex') {
+                        syncFloatingMessages();
+                    }
+                });
+                obs.observe(messagesDiv, { childList: true, subtree: false });
+            }
+        }
+
+        // ----------------------
+        // Notificaciones del navegador
+        // ----------------------
+        function notifyBrowser(body) {
+            try {
+                if (!('Notification' in window)) return;
+                if (Notification.permission === 'granted') {
+                    new Notification('NegocioListo', { body });
+                } else if (Notification.permission !== 'denied') {
+                    Notification.requestPermission().then(perm => {
+                        if (perm === 'granted') new Notification('NegocioListo', { body });
+                    });
+                }
+            } catch(_) {}
+        }
+    </script>
+</body>
+</html>

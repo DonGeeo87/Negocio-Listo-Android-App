@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="NegocioListo - La aplicación completa de gestión empresarial para emprendedores. Gestiona inventario, ventas, clientes, facturas y más desde tu móvil.">
+    <meta name="keywords" content="gestión empresarial, inventario, ventas, facturas, emprendedores, Android, negocio">
+    <title>NegocioListo - Gestión Empresarial Completa para Emprendedores</title>
+    <link rel="stylesheet" href="/landing/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <div class="logo">
+                    <span class="logo-icon">📱</span>
+                    <span class="logo-text">NegocioListo</span>
+                </div>
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="#inicio" class="nav-link">Inicio</a></li>
+                    <li><a href="#colecciones-portal" class="nav-link">Portal del Cliente</a></li>
+                    <li><a href="#caracteristicas" class="nav-link">Características</a></li>
+                    <li><a href="#modulos" class="nav-link">Módulos</a></li>
+                    <li><a href="#roadmap" class="nav-link">Roadmap</a></li>
+                    <li><a href="#descargar" class="nav-link cta-button">Descargar</a></li>
+                </ul>
+                <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1 class="hero-title">
+                        Gestiona tu negocio de forma <span class="gradient-text">profesional</span> desde tu móvil
+                    </h1>
+                    <p class="hero-description">
+                        NegocioListo es la aplicación completa que necesitas para administrar inventario, ventas, clientes, facturas y más. 
+                        Todo en un solo lugar, con sincronización en la nube y funcionamiento offline.
+                    </p>
+                    <div class="hero-buttons">
+                        <a href="#descargar" class="btn btn-primary">Descargar Ahora</a>
+                        <a href="#caracteristicas" class="btn btn-secondary">Conocer Más</a>
+                    </div>
+                    <div class="hero-features">
+                        <div class="feature-badge">
+                            <span class="badge-icon">🚀</span>
+                            <span>Offline-First</span>
+                        </div>
+                        <div class="feature-badge">
+                            <span class="badge-icon">🔄</span>
+                            <span>Sincronización Automática</span>
+                        </div>
+                        <div class="feature-badge">
+                            <span class="badge-icon">🔒</span>
+                            <span>100% Seguro</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="/landing/images/dashboard.jpg" alt="Dashboard de NegocioListo" class="hero-img">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why NegocioListo Section -->
+    <section class="why-section">
+        <div class="container">
+            <h2 class="section-title">¿Por qué NegocioListo?</h2>
+            <div class="why-grid">
+                <div class="why-card">
+                    <div class="why-icon">🚀</div>
+                    <h3>Offline-First</h3>
+                    <p>Funciona completamente sin conexión a internet. Tus datos se sincronizan automáticamente cuando hay conexión.</p>
+                </div>
+                <div class="why-card">
+                    <div class="why-icon">🔄</div>
+                    <h3>Sincronización Automática</h3>
+                    <p>Datos siempre actualizados en la nube. Accede desde cualquier dispositivo con tu cuenta.</p>
+                </div>
+                <div class="why-card">
+                    <div class="why-icon">📱</div>
+                    <h3>Multi-Dispositivo</h3>
+                    <p>Accede a tus datos desde cualquier dispositivo Android. Tu información siempre disponible.</p>
+                </div>
+                <div class="why-card">
+                    <div class="why-icon">🎨</div>
+                    <h3>Interfaz Moderna</h3>
+                    <p>Diseño intuitivo con Material Design 3. Experiencia de usuario fluida y profesional.</p>
+                </div>
+                <div class="why-card">
+                    <div class="why-icon">🔒</div>
+                    <h3>Seguro</h3>
+                    <p>Encriptación de datos y autenticación segura con Firebase. Tus datos están protegidos.</p>
+                </div>
+                <div class="why-card">
+                    <div class="why-icon">🌐</div>
+                    <h3>Portal del Cliente</h3>
+                    <p>Portal web completo para comunicación profesional directa con tus clientes.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modules Section -->
+    <section id="modulos" class="modules-section">
+        <div class="container">
+            <h2 class="section-title">Módulos Principales</h2>
+            <div class="modules-grid">
+                <div class="module-card">
+                    <div class="module-icon">📦</div>
+                    <h3>Inventario</h3>
+                    <p>Gestiona tu catálogo de productos con control de stock, precios, categorías y códigos de barras.</p>
+                </div>
+                <div class="module-card">
+                    <div class="module-icon">💰</div>
+                    <h3>Ventas</h3>
+                    <p>Registra ventas rápidamente, genera facturas automáticamente y analiza tus estadísticas.</p>
+                </div>
+                <div class="module-card">
+                    <div class="module-icon">👥</div>
+                    <h3>Clientes</h3>
+                    <p>Base de datos completa de clientes con historial de compras y segmentación avanzada.</p>
+                </div>
+                <div class="module-card">
+                    <div class="module-icon">💸</div>
+                    <h3>Gastos</h3>
+                    <p>Control financiero con categorización inteligente, seguimiento de proveedores y reportes automáticos.</p>
+                </div>
+                <div class="module-card">
+                    <div class="module-icon">📚</div>
+                    <h3>Colecciones</h3>
+                    <p>Agrupa productos relacionados con precios especiales y comparte con tus clientes a través del portal web.</p>
+                </div>
+                <div class="module-card">
+                    <div class="module-icon">📊</div>
+                    <h3>Dashboard</h3>
+                    <p>KPIs en tiempo real, alertas de stock bajo, top productos y clientes más activos.</p>
+                </div>
+                <div class="module-card">
+                    <div class="module-icon">🆓</div>
+                    <h3>Herramientas</h3>
+                    <p>Calculadora de precios, punto de equilibrio, recuperación de inversión y estimador de stock.</p>
+                </div>
+                <div class="module-card">
+                    <div class="module-icon">⚙️</div>
+                    <h3>Configuración</h3>
+                    <p>Gestiona tu perfil, datos de empresa, backups automáticos y exportación de datos.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Colecciones + Portal del Cliente - Featured Section -->
+    <section id="colecciones-portal" class="featured-section">
+        <div class="container">
+            <div class="featured-header">
+                <span class="featured-badge">🌟 Core Feature</span>
+                <h2 class="section-title">Colecciones + Portal del Cliente</h2>
+                <p class="featured-subtitle">
+                    El corazón de NegocioListo: un canal de comunicación profesional directo con tus clientes, 
+                    sin intermediarios y sin necesidad de grandes equipos.
+                </p>
+            </div>
+            <div class="featured-content">
+                <div class="featured-main-card">
+                    <div class="featured-card-content">
+                        <div class="featured-image-carousel">
+                            <div class="carousel-container">
+                                <div class="carousel-slide active">
+                                    <img src="/landing/images/colecciones.jpg" alt="Colecciones de Productos" class="carousel-image">
+                                    <div class="carousel-caption">
+                                        <h4>📚 Colecciones de Productos</h4>
+                                        <p>Agrupa productos relacionados y compártelos con tus clientes</p>
+                                    </div>
+                                </div>
+                                <div class="carousel-slide">
+                                    <img src="/landing/images/portal-cliente.jpg" alt="Portal del Cliente" class="carousel-image">
+                                    <div class="carousel-caption">
+                                        <h4>🌐 Portal del Cliente</h4>
+                                        <p>Canal profesional de comunicación directa con tus clientes</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="carousel-controls">
+                                <button class="carousel-btn prev" onclick="changeSlide(-1)" aria-label="Imagen anterior">‹</button>
+                                <div class="carousel-dots">
+                                    <span class="dot active" onclick="currentSlide(1)"></span>
+                                    <span class="dot" onclick="currentSlide(2)"></span>
+                                </div>
+                                <button class="carousel-btn next" onclick="changeSlide(1)" aria-label="Siguiente imagen">›</button>
+                            </div>
+                        </div>
+                        <div class="featured-text">
+                            <h3>🌐 Colecciones + Portal del Cliente - Tu Canal Profesional</h3>
+                            <p class="featured-description">
+                                Transforma cómo te comunicas con tus clientes. Las Colecciones te permiten agrupar productos relacionados 
+                                y compartirlos a través del Portal del Cliente, un sistema completo que permite a tus clientes ver tus productos, 
+                                realizar pedidos, chatear contigo y dar seguimiento a sus compras, todo desde una web personalizada.
+                            </p>
+                            <div class="featured-benefits">
+                                <div class="benefit-item">
+                                    <span class="benefit-icon">💼</span>
+                                    <div>
+                                        <strong>Canal de Comunicación Profesional</strong>
+                                        <p>Comunicación directa cliente-negocio sin intermediarios</p>
+                                    </div>
+                                </div>
+                                <div class="benefit-item">
+                                    <span class="benefit-icon">⚡</span>
+                                    <div>
+                                        <strong>Ahorro de Tiempo y Dinero</strong>
+                                        <p>Automatización completa que elimina la necesidad de grandes equipos</p>
+                                    </div>
+                                </div>
+                                <div class="benefit-item">
+                                    <span class="benefit-icon">🚀</span>
+                                    <div>
+                                        <strong>Sin Dependencias Externas</strong>
+                                        <p>Web personalizada lista para usar sin desarrollo complejo</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="featured-features-grid">
+                    <div class="featured-feature-card">
+                        <div class="featured-feature-icon">🎨</div>
+                        <h4>5 Templates Visuales</h4>
+                        <p>MODERN, CLASSIC, MINIMAL, DARK, COLORFUL - Personaliza el diseño según tu marca</p>
+                    </div>
+                    <div class="featured-feature-card">
+                        <div class="featured-feature-icon">💬</div>
+                        <h4>Chat en Tiempo Real</h4>
+                        <p>Comunicación bidireccional con historial completo y mensajes del sistema</p>
+                    </div>
+                    <div class="featured-feature-card">
+                        <div class="featured-feature-icon">📦</div>
+                        <h4>Sistema de Pedidos</h4>
+                        <p>Gestión completa de pedidos con seguimiento de estados en tiempo real</p>
+                    </div>
+                    <div class="featured-feature-card">
+                        <div class="featured-feature-icon">👤</div>
+                        <h4>Gestión Automática</h4>
+                        <p>Creación automática de clientes desde pedidos web sin intervención manual</p>
+                    </div>
+                    <div class="featured-feature-card">
+                        <div class="featured-feature-icon">🔔</div>
+                        <h4>Notificaciones Push</h4>
+                        <p>Alertas en tiempo real para cliente y negocio con Firebase Cloud Messaging</p>
+                    </div>
+                    <div class="featured-feature-card">
+                        <div class="featured-feature-icon">🔗</div>
+                        <h4>Links Públicos</h4>
+                        <p>Comparte por WhatsApp, email o SMS con un solo clic</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="caracteristicas" class="features-section">
+        <div class="container">
+            <h2 class="section-title">Características Principales</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-image">
+                        <img src="/landing/images/inventario.jpg" alt="Gestión de Inventario">
+                    </div>
+                    <div class="feature-content">
+                        <h3>📦 Gestión de Inventario</h3>
+                        <ul>
+                            <li>Catálogo completo de productos con imágenes optimizadas</li>
+                            <li>Control de stock y precios en CLP</li>
+                            <li>Escaneo de códigos de barras integrado</li>
+                            <li>Alertas automáticas de stock bajo</li>
+                            <li>Búsqueda y filtros avanzados en tiempo real</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="feature-card reverse">
+                    <div class="feature-image">
+                        <img src="/landing/images/ventas.jpg" alt="Sistema de Ventas">
+                    </div>
+                    <div class="feature-content">
+                        <h3>💰 Sistema de Ventas</h3>
+                        <ul>
+                            <li>Registro rápido de ventas con carrito</li>
+                            <li>Múltiples métodos de pago</li>
+                            <li>Generación automática de facturas</li>
+                            <li>Historial completo de transacciones</li>
+                            <li>Estadísticas de ventas en tiempo real</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="feature-card reverse">
+                    <div class="feature-image">
+                        <img src="/landing/images/facturas.jpg" alt="Sistema de Facturación">
+                    </div>
+                    <div class="feature-content">
+                        <h3>📄 Sistema de Facturación</h3>
+                        <ul>
+                            <li>Múltiples plantillas de factura (3 tipos)</li>
+                            <li>Personalización completa de datos empresariales</li>
+                            <li>Exportación en PDF de alta calidad</li>
+                            <li>Numeración automática</li>
+                            <li>Compartir por email y WhatsApp</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Detailed Features Section -->
+    <section class="detailed-features-section">
+        <div class="container">
+            <h2 class="section-title">Funcionalidades Completas</h2>
+            <div class="detailed-features-grid">
+                <div class="detailed-feature-category">
+                    <h3>📦 Gestión de Inventario</h3>
+                    <ul>
+                        <li>Catálogo completo de productos con imágenes optimizadas</li>
+                        <li>Control de stock y precios en CLP (Pesos Chilenos)</li>
+                        <li>Categorización avanzada de productos</li>
+                        <li>Escaneo de códigos de barras integrado</li>
+                        <li>Alertas automáticas de stock bajo</li>
+                        <li>Búsqueda y filtros avanzados en tiempo real</li>
+                        <li>Compresión automática de imágenes</li>
+                        <li>Vista de estadísticas de inventario</li>
+                    </ul>
+                </div>
+                <div class="detailed-feature-category">
+                    <h3>💰 Sistema de Ventas</h3>
+                    <ul>
+                        <li>Registro rápido de ventas con carrito</li>
+                        <li>Múltiples métodos de pago</li>
+                        <li>Generación automática de facturas</li>
+                        <li>Historial completo de transacciones</li>
+                        <li>Estadísticas de ventas en tiempo real</li>
+                        <li>Integración con clientes y productos</li>
+                        <li>Búsqueda de productos en tiempo real</li>
+                    </ul>
+                </div>
+                <div class="detailed-feature-category">
+                    <h3>👥 Gestión de Clientes</h3>
+                    <ul>
+                        <li>Base de datos de clientes completa</li>
+                        <li>Historial de compras detallado por cliente</li>
+                        <li>Información de contacto completa</li>
+                        <li>Importación de contactos desde el dispositivo</li>
+                        <li>Segmentación de clientes</li>
+                        <li>Búsqueda y filtros avanzados</li>
+                        <li>Vista de detalle con estadísticas personalizadas</li>
+                    </ul>
+                </div>
+                <div class="detailed-feature-category">
+                    <h3>💸 Control de Gastos</h3>
+                    <ul>
+                        <li>Categorización inteligente de gastos</li>
+                        <li>Seguimiento de proveedores</li>
+                        <li>Reportes financieros mensuales automáticos</li>
+                        <li>Integración con ventas para análisis de ganancias</li>
+                        <li>Filtros por fecha y categoría</li>
+                        <li>Resúmenes automáticos con visualización clara</li>
+                    </ul>
+                </div>
+                <div class="detailed-feature-category">
+                    <h3>📄 Sistema de Facturación</h3>
+                    <ul>
+                        <li>Múltiples plantillas de factura (3 tipos diferentes)</li>
+                        <li>Personalización completa de datos empresariales</li>
+                        <li>Exportación en PDF de alta calidad</li>
+                        <li>Numeración automática (F001-xxxx)</li>
+                        <li>Compartir por email y WhatsApp</li>
+                        <li>Vista previa antes de exportar</li>
+                    </ul>
+                </div>
+                <div class="detailed-feature-category">
+                    <h3>📊 Dashboard y Reportes</h3>
+                    <ul>
+                        <li>KPIs en tiempo real en CLP</li>
+                        <li>Alertas de stock bajo</li>
+                        <li>Top productos más vendidos</li>
+                        <li>Top clientes más activos</li>
+                        <li>Métricas de ventas y gastos</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tools Section -->
+    <section class="tools-section">
+        <div class="container">
+            <div class="tools-header">
+                <span class="tools-badge">🆓 Gratuitas</span>
+                <h2 class="section-title">Herramientas para tu Negocio</h2>
+                <p class="tools-subtitle">
+                    Cuatro herramientas profesionales incluidas sin costo adicional para ayudarte a tomar mejores decisiones financieras.
+                </p>
+            </div>
+            <div class="tools-grid">
+                <div class="tool-card">
+                    <div class="tool-icon">🧮</div>
+                    <h3>Calculadora de Precios</h3>
+                    <p>Calcula el precio de venta ideal considerando costos, margen de ganancia y gastos operativos. Asegura rentabilidad en cada producto.</p>
+                </div>
+                <div class="tool-card">
+                    <div class="tool-icon">⚖️</div>
+                    <h3>Punto de Equilibrio</h3>
+                    <p>Determina cuántas unidades necesitas vender para cubrir todos tus costos. Conoce el mínimo para no perder dinero.</p>
+                </div>
+                <div class="tool-card">
+                    <div class="tool-icon">📈</div>
+                    <h3>Recuperación de Inversión</h3>
+                    <p>Calcula cuánto tiempo necesitas para recuperar una inversión inicial. Planifica mejor tus estrategias de crecimiento.</p>
+                </div>
+                <div class="tool-card">
+                    <div class="tool-icon">📦</div>
+                    <h3>Estimador de Stock</h3>
+                    <p>Estima la cantidad óptima de stock a mantener basado en ventas históricas. Optimiza tu inventario y evita faltantes.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Roadmap Section -->
+    <section id="roadmap" class="roadmap-section">
+        <div class="container">
+            <h2 class="section-title">Roadmap</h2>
+            <div class="roadmap-timeline">
+                <div class="timeline-item">
+                    <div class="timeline-marker short-term"></div>
+                    <div class="timeline-content">
+                        <h3>Corto Plazo</h3>
+                        <ul>
+                            <li>✅ Mensajes del sistema automáticos en chat</li>
+                            <li>Más tests unitarios para ViewModels</li>
+                            <li>Optimización de queries de Room</li>
+                            <li>Analytics y métricas de uso de colecciones</li>
+                            <li>Mejorar documentación de API</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-marker medium-term"></div>
+                    <div class="timeline-content">
+                        <h3>Mediano Plazo</h3>
+                        <ul>
+                            <li>Integración de pagos (MercadoPago, Getnet, Flow)</li>
+                            <li>Subida de imágenes de referencia por cliente</li>
+                            <li>Google Maps para ubicación de entrega</li>
+                            <li>Sugerencias automáticas de combos o upsells</li>
+                            <li>Exportación de reportes en múltiples formatos</li>
+                            <li>Integración con sistemas de punto de venta</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-marker long-term"></div>
+                    <div class="timeline-content">
+                        <h3>Largo Plazo</h3>
+                        <ul>
+                            <li>Soporte para múltiples idiomas</li>
+                            <li>Versión web completa (PWA)</li>
+                            <li>Integración con APIs de contabilidad</li>
+                            <li>Sistema de reportes avanzados con gráficos</li>
+                            <li>IA para sugerencias de productos</li>
+                            <li>🤖 IA para Reportes Semanales Inteligentes</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Download Section -->
+    <section id="descargar" class="download-section">
+        <div class="container">
+            <div class="download-content">
+                <h2 class="section-title">¿Listo para comenzar?</h2>
+                <p class="download-description">
+                    Descarga NegocioListo ahora y comienza a gestionar tu negocio de forma profesional.
+                </p>
+                <div class="download-buttons">
+                    <a href="/releases/app-release-v1.0.2.apk" download="NegocioListo-v1.0.2.apk" class="btn btn-primary btn-large">
+                        <span>📥 Descargar APK v1.0.2</span>
+                    </a>
+                    <a href="https://github.com/DonGeeo87/Negocio-Listo-Android-App/releases" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-large">
+                        <span>🔗 Ver en GitHub</span>
+                    </a>
+                </div>
+                <div class="download-info">
+                    <div class="info-item">
+                        <span class="info-icon">📱</span>
+                        <span>Android 7.0+</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-icon">💾</span>
+                        <span>150 MB de espacio</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-icon">🆓</span>
+                        <span>100% Gratuito</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <span class="logo-icon">📱</span>
+                        <span class="logo-text">NegocioListo</span>
+                    </div>
+                    <p class="footer-description">
+                        Una aplicación desarrollada con pasión para ayudar a los emprendedores a gestionar sus negocios de manera eficiente y moderna.
+                    </p>
+                </div>
+                <div class="footer-section">
+                    <h4>Enlaces</h4>
+                    <ul class="footer-links">
+                        <li><a href="#inicio">Inicio</a></li>
+                        <li><a href="#colecciones-portal">Portal del Cliente</a></li>
+                        <li><a href="#caracteristicas">Características</a></li>
+                        <li><a href="#modulos">Módulos</a></li>
+                        <li><a href="#roadmap">Roadmap</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Recursos</h4>
+                    <ul class="footer-links">
+                        <li><a href="https://github.com/DonGeeo87/Negocio-Listo-Android-App" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+                        <li><a href="https://github.com/DonGeeo87/Negocio-Listo-Android-App/releases" target="_blank" rel="noopener noreferrer">Releases</a></li>
+                        <li><a href="https://github.com/DonGeeo87/Negocio-Listo-Android-App/issues" target="_blank" rel="noopener noreferrer">Soporte</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Desarrollador</h4>
+                    <p class="footer-author">
+                        Desarrollado con ❤️ por un Emprendedor para Emprendedores
+                    </p>
+                    <p class="footer-author-name">
+                        Giorgio Interdonato Palacios<br>
+                        <a href="https://github.com/DonGeeo87" target="_blank" rel="noopener noreferrer">@DonGeeo87</a>
+                    </p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 NegocioListo. Todos los derechos reservados.</p>
+                <p class="footer-version">Versión 1.0.2 - Portal del Cliente como Core Feature</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/landing/script.js"></script>
+</body>
+</html>
+

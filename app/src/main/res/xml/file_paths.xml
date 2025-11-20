@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    📁 CONFIGURACIÓN DE RUTAS DE ARCHIVOS
+    
+    Este archivo define qué directorios puede acceder el FileProvider.
+    Es como definir qué "carpetas" puede compartir nuestra app con otras aplicaciones.
+    
+    El FileProvider es necesario para:
+    - Compartir facturas PDF
+    - Compartir imágenes de productos
+    - Exportar reportes
+-->
+<paths xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <!--
+        📱 DIRECTORIO INTERNO DE LA APP
+        
+        Este es el directorio privado de nuestra aplicación.
+        Solo nuestra app puede acceder a estos archivos.
+    -->
+    <files-path 
+        name="internal_files" 
+        path="." />
+    
+    <!--
+        📸 DIRECTORIO DE CACHE
+        
+        Para archivos temporales como imágenes procesadas.
+    -->
+    <cache-path 
+        name="cache_files" 
+        path="." />
+    
+    <!--
+        📄 DIRECTORIO DE DOCUMENTOS
+        
+        Para archivos que el usuario quiere mantener, como facturas.
+    -->
+    <files-path 
+        name="documents" 
+        path="documents/" />
+    
+    <!--
+        🖼️ DIRECTORIO DE IMÁGENES
+        
+        Para las fotos de productos y otros archivos de imagen.
+    -->
+    <files-path 
+        name="images" 
+        path="images/" />
+    
+    <!--
+        📊 DIRECTORIO DE REPORTES
+        
+        Para archivos de reportes y exportaciones.
+    -->
+    <files-path 
+        name="reports" 
+        path="reports/" />
+    
+    <!--
+        📂 DIRECTORIO EXTERNO DE LA APP
+        Habilita compartir archivos generados en getExternalFilesDir(...)
+    -->
+    <external-files-path
+        name="external_all"
+        path="." />
+        
+</paths>
+
+<!--
+    📚 EXPLICACIÓN DE RUTAS:
+    
+    1. files-path: Directorio interno de la app (getFilesDir())
+    2. cache-path: Directorio de cache (getCacheDir())
+    3. external-files-path: Directorio externo de la app (getExternalFilesDir())
+    4. external-cache-path: Cache externo (getExternalCacheDir())
+    
+    ANALOGÍA:
+    
+    Es como definir qué habitaciones de tu casa pueden visitar los invitados:
+    
+    - "Pueden entrar al living" (documents)
+    - "Pueden ver la cocina" (images) 
+    - "Pueden usar el baño" (cache)
+    - "NO pueden entrar al dormitorio" (archivos privados)
+    
+    De esta forma, otras apps pueden acceder solo a los archivos
+    que nosotros queremos compartir, manteniendo la seguridad.
+-->

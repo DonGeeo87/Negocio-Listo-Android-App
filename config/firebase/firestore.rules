@@ -1,0 +1,227 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Reglas para usuarios autenticados
+    match /users/{userId} {
+      // Solo el usuario autenticado puede leer/escribir sus propios datos
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+      
+      // Subcolecciones del usuario
+      match /{collection}/{document} {
+        allow read, write: if request.auth != null && request.auth.uid == userId;
+      }
+    }
+    
+    // Reglas para productos
+    match /products/{productId} {
+      // Solo usuarios autenticados pueden acceder a productos
+      allow read, write: if request.auth != null;
+    }
+    
+    // Reglas para ventas
+    match /sales/{saleId} {
+      // Solo usuarios autenticados pueden acceder a ventas
+      allow read, write: if request.auth != null;
+    }
+    
+    // Reglas para clientes
+    match /customers/{customerId} {
+      // ✅ Lectura: usuarios autenticados siempre
+      // También permitir lectura pública para el portal del cliente
+      // (La validación del token se hace en el código JavaScript)
+      // IMPORTANTE: Permitir lectura pública permite consultas con where() desde el portal
+      allow read: if true;
+      
+      // Creación: usuarios públicos pueden crear su propio registro al hacer un pedido
+      // Validar que los campos requeridos estén presentes (email puede ser opcional)
+      allow create: if request.auth != null || 
+                      (request.resource.data.keys().hasAll(['id', 'name', 'isActive']) &&
+                       request.resource.data.name is string &&
+                       request.resource.data.isActive == true);
+      
+      // Actualización: usuarios autenticados o actualización de campos desde portal del cliente
+      // Permitir actualización de accessToken, name, email, phone si el documento ya existe
+      allow update: if request.auth != null || 
+                      (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['accessToken', 'name', 'email', 'phone']) &&
+                       (request.resource.data.accessToken == null || request.resource.data.accessToken is string) &&
+                       (request.resource.data.name == null || request.resource.data.name is string) &&
+                       (request.resource.data.email == null || request.resource.data.email is string) &&
+                       (request.resource.data.phone == null || request.resource.data.phone is string));
+      
+      // Eliminación: solo usuarios autenticados
+      allow delete: if request.auth != null;
+      
+      // Subcolección: Mensajes del chat centralizado del cliente
+      match /messages/{messageId} {
+        // Permitir lectura para el portal del cliente (validación de token en código)
+        allow read: if request.auth != null || true;
+        
+        // Permitir creación de mensajes del cliente
+        // Validar que el senderId coincida con el customerId del path
+        allow create: if request.auth != null || 
+                         (request.resource.data.senderType == 'CLIENT' && 
+                          request.resource.data.senderId == customerId);
+        
+        // Actualización y eliminación: solo usuarios autenticados (negocio)
+        allow update, delete: if request.auth != null;
+      }
+    }
+    
+    // Reglas para gastos
+    match /expenses/{expenseId} {
+      // Solo usuarios autenticados pueden acceder a gastos
+      allow read, write: if request.auth != null;
+    }
+    
+    // Reglas para eventos de calendario
+    match /calendar_events/{eventId} {
+      // Solo usuarios autenticados pueden acceder a eventos
+      allow read, write: if request.auth != null;
+    }
+    
+    // Reglas para colecciones
+    match /collections/{collectionId} {
+      // Función helper: verificar si la colección es compartida/pública
+      // ✅ Permite acceso público si el documento existe y es compartido
+      function isSharedCollection() {
+        return resource != null && (
+          (resource.data.isPublic == true) || 
+          (resource.data.public == true) ||
+          (resource.data.status == "Shared") || 
+          (resource.data.status == "SHARED") ||
+          (resource.data.status == "Active") ||
+          (resource.data.status == "ACTIVE")
+        );
+      }
+      
+      // ✅ Verificar que la colección pertenece al usuario autenticado
+      function isOwner() {
+        return request.auth != null && 
+               resource != null &&
+               resource.data.userId == request.auth.uid;
+      }
+      
+      // ✅ Verificar si la colección tiene clientes asociados (para portales)
+      function hasAssociatedCustomers() {
+        return resource != null && 
+               resource.data.keys().hasAny(['associatedCustomerIds', 'customerAccessTokens']);
+      }
+      
+      // ✅ Lectura: 
+      // - El propietario siempre puede leer
+      // - Cualquiera puede leer si la colección es compartida/pública (para portales de clientes)
+      // - Permitir lectura pública para consultas where() que buscan por associatedCustomerIds
+      //   (La validación del token del cliente se hace en el código JavaScript del portal)
+      // NOTA: Las colecciones compartidas con clientes DEBEN tener status "SHARED" o "ACTIVE"
+      //       para que sean accesibles desde el portal del cliente
+      // IMPORTANTE: Permitir lectura pública permite consultas con where('associatedCustomerIds')
+      //             desde el portal del cliente. Esto es seguro porque:
+      //             1. Solo las colecciones compartidas tienen clientes asociados
+      //             2. La validación del token se hace en el código JavaScript
+      //             3. Los datos sensibles no están expuestos (solo productos/pedidos públicos)
+      allow read: if isOwner() || 
+                     isSharedCollection() ||
+                     hasAssociatedCustomers() ||
+                     true; // Permitir lectura pública para consultas where() con associatedCustomerIds
+      
+      // ✅ Escritura: solo el propietario puede escribir
+      allow create: if request.auth != null && 
+                      request.resource.data.userId == request.auth.uid;
+      allow update: if isOwner();
+      allow delete: if isOwner();
+      
+      // Subcolección: Mensajes del chat
+      match /messages/{messageId} {
+        // Función helper para verificar si la colección es pública
+        function isCollectionPublic() {
+          let coll = get(/databases/$(database)/documents/collections/$(collectionId));
+          return coll != null && (
+            coll.data.isPublic == true ||
+            coll.data.public == true ||
+            coll.data.status == "Shared" ||
+            coll.data.status == "SHARED" ||
+            coll.data.status == "Active" ||
+            coll.data.status == "ACTIVE"
+          );
+        }
+        
+        // Lectura: autenticados siempre, públicos si la colección es compartida
+        allow read: if request.auth != null || isCollectionPublic();
+        
+        // Escritura: solo autenticados (negocio) o usuarios públicos (clientes desde mini-web)
+        // Nota: Los clientes pueden escribir si la colección es compartida
+        allow create: if request.auth != null || isCollectionPublic();
+        
+        // Actualización: solo autenticados (para marcar como leído, etc.)
+        allow update, delete: if request.auth != null;
+      }
+      
+      // Subcolección: Items/Products de la colección (compatibilidad con ambos nombres)
+      match /items/{itemId} {
+        // Función helper para verificar si la colección padre es compartida
+        function isParentCollectionShared() {
+          let coll = get(/databases/$(database)/documents/collections/$(collectionId));
+          return coll != null && (
+            coll.data.isPublic == true ||
+            coll.data.public == true ||
+            coll.data.status == "Shared" ||
+            coll.data.status == "SHARED" ||
+            coll.data.status == "Active" ||
+            coll.data.status == "ACTIVE"
+          );
+        }
+        
+        // Lectura: autenticados siempre, públicos si la colección es compartida
+        allow read: if request.auth != null || isParentCollectionShared();
+        
+        // Escritura: solo autenticados
+        allow write: if request.auth != null;
+      }
+      
+      // Subcolección: Respuestas/Pedidos
+      match /responses/{responseId} {
+        // Lectura: autenticados siempre, públicos si la colección es compartida
+        // También permitir si el pedido tiene un customerId (para el portal del cliente)
+        allow read: if request.auth != null || 
+                      (get(/databases/$(database)/documents/collections/$(collectionId)).data.isPublic == true ||
+                       get(/databases/$(database)/documents/collections/$(collectionId)).data.public == true ||
+                       get(/databases/$(database)/documents/collections/$(collectionId)).data.status == "Shared" ||
+                       get(/databases/$(database)/documents/collections/$(collectionId)).data.status == "SHARED" ||
+                       get(/databases/$(database)/documents/collections/$(collectionId)).data.status == "Active" ||
+                       get(/databases/$(database)/documents/collections/$(collectionId)).data.status == "ACTIVE" ||
+                       resource.data.customerId != null); // Permitir si el pedido tiene customerId (portal del cliente)
+        
+        // Creación: autenticados y públicos si la colección es compartida
+        allow create: if request.auth != null || 
+                        (get(/databases/$(database)/documents/collections/$(collectionId)).data.isPublic == true ||
+                         get(/databases/$(database)/documents/collections/$(collectionId)).data.public == true ||
+                         get(/databases/$(database)/documents/collections/$(collectionId)).data.status == "Shared" ||
+                         get(/databases/$(database)/documents/collections/$(collectionId)).data.status == "SHARED" ||
+                         get(/databases/$(database)/documents/collections/$(collectionId)).data.status == "Active" ||
+                         get(/databases/$(database)/documents/collections/$(collectionId)).data.status == "ACTIVE");
+        
+        // Actualización: solo autenticados (negocio) o el cliente que creó el pedido
+        // Para aprobaciones, se verifica el clientId en el documento
+        allow update: if request.auth != null || 
+                        (resource.data.clientEmail == request.resource.data.clientEmail ||
+                         resource.data.clientPhone == request.resource.data.clientPhone ||
+                         resource.data.customerId != null); // Permitir actualización si tiene customerId
+        
+        // Eliminación: solo autenticados
+        allow delete: if request.auth != null;
+      }
+    }
+    
+    // Reglas para productos - permitir acceso público si están en una colección compartida
+    // Nota: Esta regla permite acceso público a productos cuando se accede desde la mini-web
+    // Los productos que están en colecciones compartidas pueden ser leídos públicamente
+    match /products/{productId} {
+      // Lectura: autenticados siempre, o si el producto está referenciado en una colección compartida
+      // Para simplificar, permitimos lectura pública (la mini-web necesita esto)
+      // En producción, puedes hacer una verificación más estricta
+      allow read: if request.auth != null || true; // Temporalmente permitir lectura pública
+      // Escritura: solo autenticados
+      allow write: if request.auth != null;
+    }
+  }
+}

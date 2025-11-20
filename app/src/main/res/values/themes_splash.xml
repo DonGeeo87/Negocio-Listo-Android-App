@@ -1,0 +1,9 @@
+<resources>
+    <!-- Tema de lanzamiento para dispositivos < Android 12 -->
+    <style name="Theme.NegocioListo.Splash" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_background</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+</resources>
+

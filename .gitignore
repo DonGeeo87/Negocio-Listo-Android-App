@@ -1,0 +1,50 @@
+*.iml
+.gradle
+/local.properties
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+
+# Archivos grandes que no deben subirse
+gradle-8.4-bin.zip
+gradle-temp/
+.kotlin/
+
+# Archivos sensibles y credenciales
+google-services.json
+client_secret_*.json
+*.jks
+*.keystore
+release-keystore.jks
+
+# Carpeta de keys (archivos sensibles)
+config/keys/
+
+# Firebase
+.firebase/
+.firebaserc
+
+# Logs
+logs/
+*.log
+
+# Archivos temporales
+temp-gradle/
+*.backup
+hs_err_pid*.log
+
+# Build outputs
+app/release/
+app-release-*.apk
+
+# Archivos de configuración local
+.keep

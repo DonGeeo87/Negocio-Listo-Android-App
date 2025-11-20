@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    📱 MANIFIESTO DE ANDROID
+    
+    Este archivo es como el "documento de identidad" de nuestra app.
+    Le dice al sistema Android qué puede hacer nuestra aplicación,
+    qué permisos necesita, y cómo debe comportarse.
+    
+    Es como el "pasaporte" de la app que presenta sus credenciales
+    al sistema operativo Android.
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!--
+        🌐 PERMISOS DE INTERNET
+        
+        Necesitamos estos permisos para:
+        - Sincronizar datos con Firebase (opcional)
+        - Enviar facturas por email
+        - Compartir por WhatsApp
+        - Verificar conectividad de red
+    -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    
+    <!--
+        📸 PERMISOS DE CÁMARA Y ALMACENAMIENTO
+        
+        Para tomar fotos de productos y guardarlas:
+        - CAMERA: Tomar fotos con la cámara del dispositivo
+        - READ_EXTERNAL_STORAGE: Leer imágenes de la galería
+        - WRITE_EXTERNAL_STORAGE: Guardar fotos (solo Android < 10)
+    -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" 
+        android:maxSdkVersion="28" />
+    
+    <!--
+        📷 PERMISOS PARA ESCANEO DE CÓDIGOS DE BARRAS
+        
+        Para escanear códigos de barras y QR:
+        - CAMERA: Acceso a la cámara para escanear
+        - VIBRATE: Vibración al escanear exitosamente
+    -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+    
+    <!--
+        📱 PERMISOS PARA IMPORTACIÓN DE CONTACTOS
+        
+        Para importar contactos desde la agenda del teléfono:
+        - READ_CONTACTS: Leer contactos de la agenda
+    -->
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    
+    <!-- Características de hardware requeridas -->
+    <!-- Camera no es requerida: la app puede funcionar sin cámara (solo se pierde funcionalidad de fotos) -->
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
+    <uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    
+    <!--
+        🔔 PERMISOS DE NOTIFICACIONES
+        
+        Para recordatorios del calendario y alertas de stock bajo
+    -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <!--
+        📱 CONFIGURACIÓN DE LA APLICACIÓN
+        
+        Aquí definimos las características principales de nuestra app
+    -->
+    <application
+        android:name=".NegocioListoApplication"
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.NegocioListo"
+        android:enableOnBackInvokedCallback="true"
+        tools:targetApi="31">
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/icon_negociolisto" />
+        
+        <!--
+            🏠 ACTIVIDAD PRINCIPAL
+            
+            Esta es la pantalla que se abre cuando el usuario toca el ícono de la app.
+            
+            android:name: La clase que maneja esta actividad
+            android:exported: Si otras apps pueden abrir esta actividad
+            android:theme: El tema visual que usa esta actividad
+        -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:theme="@style/Theme.NegocioListo"
+            android:configChanges="orientation|screenSize|screenLayout|density|fontScale|keyboardHidden|uiMode">
+            
+            <!--
+                🚀 INTENT FILTER
+                
+                Le dice a Android que esta actividad es el punto de entrada principal.
+                Es como decir: "Cuando el usuario quiera abrir NegocioListo, 
+                abre esta actividad"
+            -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        
+        <!--
+            📁 PROVEEDOR DE ARCHIVOS
+            
+            Necesario para compartir archivos (como facturas PDF) con otras apps.
+            Es como un "mensajero seguro" que entrega archivos a otras aplicaciones.
+        -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+        
+        <!--
+            🔔 SERVICIO DE FIREBASE CLOUD MESSAGING
+            
+            Maneja las notificaciones push recibidas desde Firebase.
+            Se activa automáticamente cuando llega una notificación push.
+        -->
+        <service
+            android:name=".notification.FCMService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+            
+    </application>
+
+</manifest>
+
+<!--
+    📚 CONCEPTOS IMPORTANTES:
+    
+    1. Manifest: Archivo de configuración principal de Android
+    2. Permissions: Permisos que necesita la app para funcionar
+    3. Application: Configuración global de la aplicación
+    4. Activity: Pantallas individuales de la app
+    5. Intent Filter: Define cómo se puede abrir una actividad
+    6. Provider: Componente para compartir datos con otras apps
+    7. Receiver: Componente que responde a eventos del sistema
+    
+    ANALOGÍA:
+    
+    El AndroidManifest.xml es como el "documento de constitución" de nuestra app:
+    
+    1. **Permisos**: Como los derechos que tiene un ciudadano
+       - "Tengo derecho a usar internet"
+       - "Tengo derecho a tomar fotos"
+       - "Tengo derecho a enviar notificaciones"
+    
+    2. **Application**: Como la información básica del ciudadano
+       - Nombre, dirección, foto de perfil
+       - Reglas de comportamiento básicas
+    
+    3. **Activities**: Como los diferentes roles que puede tener
+       - "Puedo trabajar como vendedor"
+       - "Puedo actuar como contador"
+       - "Puedo funcionar como administrador"
+    
+    4. **Intent Filters**: Como las formas de contactar al ciudadano
+       - "Si necesitas un vendedor, llámame"
+       - "Si quieres abrir facturas, búscame"
+    
+    Android lee este "documento" antes de instalar la app y decide:
+    - ¿Qué permisos necesita?
+    - ¿Cómo se debe comportar?
+    - ¿Qué puede hacer?
+    - ¿Cómo interactúa con otras apps?
+-->

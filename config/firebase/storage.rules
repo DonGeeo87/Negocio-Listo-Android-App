@@ -1,0 +1,36 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Reglas para archivos de usuarios autenticados
+    match /users/{userId}/{allPaths=**} {
+      // Solo el usuario autenticado puede acceder a sus archivos
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // Reglas para imágenes de productos
+    match /products/{productId}/{allPaths=**} {
+      // Lectura pública: las imágenes de productos deben ser accesibles desde la mini-web
+      // Escritura: solo usuarios autenticados
+      allow read: if true; // Permitir lectura pública para la mini-web
+      allow write: if request.auth != null;
+    }
+    
+    // Reglas para documentos de facturas
+    match /invoices/{invoiceId}/{allPaths=**} {
+      // Solo usuarios autenticados pueden acceder a facturas
+      allow read, write: if request.auth != null;
+    }
+    
+    // Reglas para backups
+    match /backups/{userId}/{allPaths=**} {
+      // Solo el usuario propietario puede acceder a sus backups
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // Reglas para archivos temporales
+    match /temp/{userId}/{allPaths=**} {
+      // Solo el usuario autenticado puede acceder a sus archivos temporales
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+  }
+}
